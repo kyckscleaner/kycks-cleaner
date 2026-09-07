@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Anton } from "next/font/google";
+import { Geist, Geist_Mono, Anton, Bangers, Pacifico } from "next/font/google";
 import "./globals.css";
 import { PwaRegister } from "@/components/PwaRegister";
 
@@ -15,6 +15,18 @@ const geistMono = Geist_Mono({
 
 const anton = Anton({
   variable: "--font-anton",
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const bangers = Bangers({
+  variable: "--font-brand-bold",
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const pacifico = Pacifico({
+  variable: "--font-brand-script",
   weight: "400",
   subsets: ["latin"],
 });
@@ -61,7 +73,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} ${bangers.variable} ${pacifico.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <PwaRegister />

@@ -18,8 +18,9 @@ export default async function ServicesPage() {
           Nos formules
         </h1>
         <p className="mt-2 text-white/60">
-          Toutes nos prestations sont réalisées à votre domicile ou sur votre lieu de travail, à
-          la date et l&apos;heure de votre choix.
+          Toutes nos prestations sont réalisées directement à votre domicile, à la date et
+          l&apos;heure de votre choix. Un point d&apos;eau et une prise électrique sont
+          nécessaires sur place.
         </p>
 
         <div className="mt-10 space-y-6">

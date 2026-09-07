@@ -3,6 +3,7 @@ import { getCurrentClient } from "@/lib/getCurrentClient";
 import { auth } from "@/auth";
 import { MobileMenu } from "@/components/MobileMenu";
 import { AccountMenu } from "@/components/AccountMenu";
+import { Logo } from "@/components/Logo";
 
 export async function SiteHeader() {
   const [client, adminSession] = await Promise.all([getCurrentClient(), auth()]);
@@ -29,9 +30,7 @@ export async function SiteHeader() {
               <circle cx="16.5" cy="16" r="1.3" fill="currentColor" />
             </svg>
           </span>
-          <span className="font-[family-name:var(--font-display)] text-xl uppercase tracking-wide text-white">
-            Kycks <span className="text-[#a855f7]">Cleaner</span>
-          </span>
+          <Logo size="text-xl" />
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-medium text-white/80 sm:flex">
           <Link href="/services" className="hover:text-white">

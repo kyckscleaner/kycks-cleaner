@@ -34,8 +34,8 @@ export default async function HomePage() {
             </span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
-            Kycks Cleaner intervient chez vous ou sur votre lieu de travail pour un nettoyage
-            intérieur et extérieur. Réservez en ligne, réglez sur place.
+            Kycks Cleaner intervient directement à votre domicile pour un nettoyage intérieur et
+            extérieur. Réservez en ligne, réglez sur place.
           </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
             <Link
@@ -105,8 +105,8 @@ export default async function HomePage() {
             },
             {
               step: "2",
-              title: "On vient à vous",
-              desc: "Domicile, bureau, parking : on intervient avec tout le matériel nécessaire, où que vous soyez à Granville et ses environs.",
+              title: "On vient chez vous",
+              desc: "Intervention directement à votre domicile à Granville et ses environs. Un point d'eau et une prise électrique sont nécessaires sur place.",
             },
             {
               step: "3",
