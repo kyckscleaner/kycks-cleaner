@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SocialLinks } from "@/components/SocialLinks";
 
 export default function ContactPage() {
   return (
@@ -22,16 +23,31 @@ export default function ContactPage() {
           <p>
             📸 Instagram :{" "}
             <a
-              href="https://instagram.com/kycks.cleaner"
+              href="https://instagram.com/kycks_cleaner"
               target="_blank"
               rel="noreferrer"
               className="text-[#a855f7] hover:underline"
             >
-              @kycks.cleaner
+              @kycks_cleaner
+            </a>
+          </p>
+          <p>
+            🎵 TikTok :{" "}
+            <a
+              href="https://tiktok.com/@kycks_cleaner"
+              target="_blank"
+              rel="noreferrer"
+              className="text-[#a855f7] hover:underline"
+            >
+              @kycks_cleaner
             </a>
           </p>
           <p>📍 Zone d&apos;intervention : Granville et environs (10 km autour)</p>
           <p>📅 Uniquement sur rendez-vous</p>
+        </div>
+
+        <div className="mt-8">
+          <SocialLinks />
         </div>
       </main>
       <SiteFooter />
