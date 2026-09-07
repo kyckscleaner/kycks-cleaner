@@ -35,7 +35,7 @@ export async function SiteHeader() {
         </nav>
         <div className="flex items-center gap-3">
           <div className="hidden sm:block">
-            <SocialLinks />
+            <SocialLinks size={36} />
           </div>
           <Link
             href="/reserver"
