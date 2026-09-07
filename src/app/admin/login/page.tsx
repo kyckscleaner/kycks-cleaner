@@ -8,6 +8,7 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [code, setCode] = useState("");
   const [step, setStep] = useState<"credentials" | "code">("credentials");
   const [error, setError] = useState<string | null>(null);
@@ -75,22 +76,38 @@ export default function AdminLoginPage() {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
                 className="w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder:text-white/40"
               />
-              <input
-                required
-                type="password"
-                placeholder="Mot de passe"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder:text-white/40"
-              />
+              <div className="relative">
+                <input
+                  required
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Mot de passe"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  className="w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 pr-16 text-white placeholder:text-white/40"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-white/50 hover:text-white"
+                >
+                  {showPassword ? "Cacher" : "Afficher"}
+                </button>
+              </div>
             </>
           )}
           {step === "code" && (
             <input
               required
               autoFocus
+              inputMode="numeric"
               placeholder="Code à 6 chiffres"
               value={code}
               onChange={(e) => setCode(e.target.value)}

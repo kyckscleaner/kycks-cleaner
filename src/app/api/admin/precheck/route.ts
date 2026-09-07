@@ -5,8 +5,10 @@ import { sendLoginCode } from "@/lib/emailOtp";
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const email = body?.email as string | undefined;
-  const password = body?.password as string | undefined;
+  const emailRaw = body?.email as string | undefined;
+  const passwordRaw = body?.password as string | undefined;
+  const email = emailRaw?.trim().toLowerCase();
+  const password = passwordRaw?.trim();
 
   if (!email || !password) {
     return NextResponse.json({ error: "Email et mot de passe requis" }, { status: 400 });
