@@ -6,9 +6,11 @@ import { useState } from "react";
 export function MobileMenu({
   isLoggedIn,
   clientFirstName,
+  isAdmin,
 }: {
   isLoggedIn: boolean;
   clientFirstName?: string;
+  isAdmin?: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -30,13 +32,19 @@ export function MobileMenu({
             <Link href="/contact" onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/5">
               Contact
             </Link>
-            <Link
-              href={isLoggedIn ? "/compte" : "/compte/connexion"}
-              onClick={() => setOpen(false)}
-              className="rounded-lg px-3 py-2 hover:bg-white/5"
-            >
-              {isLoggedIn ? `Mon compte (${clientFirstName})` : "Se connecter"}
-            </Link>
+            {isAdmin ? (
+              <Link href="/admin" onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/5">
+                Espace pro
+              </Link>
+            ) : (
+              <Link
+                href={isLoggedIn ? "/compte" : "/compte/connexion"}
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-2 hover:bg-white/5"
+              >
+                {isLoggedIn ? `Mon compte (${clientFirstName})` : "Se connecter"}
+              </Link>
+            )}
           </nav>
         </div>
       )}

@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { getCurrentClient } from "@/lib/getCurrentClient";
+import { auth } from "@/auth";
 import { MobileMenu } from "@/components/MobileMenu";
 
 export async function SiteHeader() {
-  const client = await getCurrentClient();
+  const [client, adminSession] = await Promise.all([getCurrentClient(), auth()]);
+  const isAdmin = !!adminSession;
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-black/80 backdrop-blur">
@@ -37,9 +39,15 @@ export async function SiteHeader() {
           <Link href="/contact" className="hover:text-white">
             Contact
           </Link>
-          <Link href={client ? "/compte" : "/compte/connexion"} className="hover:text-white">
-            {client ? `Bonjour ${client.name.split(" ")[0]}` : "Se connecter"}
-          </Link>
+          {isAdmin ? (
+            <Link href="/admin" className="hover:text-white">
+              Espace pro
+            </Link>
+          ) : (
+            <Link href={client ? "/compte" : "/compte/connexion"} className="hover:text-white">
+              {client ? `Bonjour ${client.name.split(" ")[0]}` : "Se connecter"}
+            </Link>
+          )}
         </nav>
         <div className="flex items-center gap-3">
           <Link
@@ -48,7 +56,7 @@ export async function SiteHeader() {
           >
             Réserver
           </Link>
-          <MobileMenu isLoggedIn={!!client} clientFirstName={client?.name.split(" ")[0]} />
+          <MobileMenu isLoggedIn={!!client} clientFirstName={client?.name.split(" ")[0]} isAdmin={isAdmin} />
         </div>
       </div>
     </header>
