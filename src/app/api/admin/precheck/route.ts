@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { sendLoginCode } from "@/lib/emailOtp";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -21,5 +22,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Email ou mot de passe incorrect" }, { status: 401 });
   }
 
-  return NextResponse.json({ needsCode: user.totpEnabled });
+  await sendLoginCode(email);
+
+  return NextResponse.json({ ok: true });
 }

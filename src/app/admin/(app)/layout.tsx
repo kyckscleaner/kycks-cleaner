@@ -9,7 +9,6 @@ const NAV_ITEMS = [
   { href: "/admin/clients", label: "Clients" },
   { href: "/admin/finances", label: "URSSAF / Impôts" },
   { href: "/admin/qrcode", label: "QR code" },
-  { href: "/admin/securite", label: "Sécurité" },
   { href: "/admin/parametres", label: "Paramètres" },
 ];
 
