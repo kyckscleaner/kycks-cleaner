@@ -10,22 +10,28 @@ export async function GET(_req: Request, { params }: { params: Promise<{ size: s
     (
       <div
         style={{
+          position: "relative",
           width: "100%",
           height: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #0b3d91 0%, #0ea5e9 100%)",
+          background: "#0a0a0d",
         }}
       >
+        {/* crown */}
+        <div style={{ position: "absolute", width: "9%", height: "9%", top: "22%", left: "35%", background: "#a855f7", borderRadius: "999px", display: "flex" }} />
+        <div style={{ position: "absolute", width: "9%", height: "14%", top: "16%", left: "45.5%", background: "#a855f7", borderRadius: "999px", display: "flex" }} />
+        <div style={{ position: "absolute", width: "9%", height: "9%", top: "22%", left: "56%", background: "#a855f7", borderRadius: "999px", display: "flex" }} />
         {/* car body */}
         <div
           style={{
             position: "absolute",
             width: "62%",
-            height: "26%",
-            background: "#f8fafc",
+            height: "24%",
+            background: "linear-gradient(90deg, #7c3aed 0%, #a855f7 100%)",
             borderRadius: "999px",
+            top: "56%",
             display: "flex",
           }}
         />
@@ -34,10 +40,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{ size: s
           style={{
             position: "absolute",
             width: "34%",
-            height: "20%",
-            background: "#f8fafc",
+            height: "18%",
+            background: "#a855f7",
             borderRadius: "40px 40px 0 0",
-            top: "34%",
+            top: "42%",
             display: "flex",
           }}
         />
@@ -47,10 +53,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{ size: s
             position: "absolute",
             width: "12%",
             height: "12%",
-            background: "#0f172a",
+            background: "#f5f3ff",
             borderRadius: "999px",
             left: "26%",
-            top: "58%",
+            top: "64%",
             display: "flex",
           }}
         />
@@ -59,25 +65,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{ size: s
             position: "absolute",
             width: "12%",
             height: "12%",
-            background: "#0f172a",
+            background: "#f5f3ff",
             borderRadius: "999px",
             right: "26%",
-            top: "58%",
-            display: "flex",
-          }}
-        />
-        {/* water droplet */}
-        <div
-          style={{
-            position: "absolute",
-            width: "14%",
-            height: "14%",
-            background: "#ffffff",
-            borderRadius: "0 999px 999px 999px",
-            transform: "rotate(45deg)",
-            top: "14%",
-            right: "20%",
-            opacity: 0.9,
+            top: "64%",
             display: "flex",
           }}
         />

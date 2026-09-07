@@ -2,40 +2,44 @@ import Link from "next/link";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-black/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 font-bold text-slate-900">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#0b3d91] to-[#0ea5e9] text-white">
+        <Link href="/" className="flex items-center gap-2">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#7c3aed] to-[#a855f7] text-white">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
               <path
-                d="M4 15h16M6 15v3M18 15v3M5 12l1.6-4.2A2 2 0 0 1 8.5 6.5h7a2 2 0 0 1 1.9 1.3L19 12"
+                d="M12 2l1.6 3.2L17 6l-2.6 2.1L15 12l-3-1.8L9 12l0.6-3.9L7 6l3.4-0.8L12 2z"
+                fill="currentColor"
+              />
+              <path
+                d="M4 16h16M6 16v2.5M18 16v2.5M5 13l1.4-3.6A2 2 0 0 1 8.2 8h7.6a2 2 0 0 1 1.8 1.4L19 13"
                 stroke="currentColor"
-                strokeWidth="1.8"
+                strokeWidth="1.6"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-              <circle cx="7.5" cy="15" r="1.4" fill="currentColor" />
-              <circle cx="16.5" cy="15" r="1.4" fill="currentColor" />
+              <circle cx="7.5" cy="16" r="1.3" fill="currentColor" />
+              <circle cx="16.5" cy="16" r="1.3" fill="currentColor" />
             </svg>
           </span>
-          <span>
-            Kycks <span className="text-[#0b3d91]">Cleaner</span>
+          <span className="font-[family-name:var(--font-display)] text-xl uppercase tracking-wide text-white">
+            Kycks <span className="text-[#a855f7]">Cleaner</span>
           </span>
         </Link>
-        <nav className="hidden items-center gap-6 text-sm font-medium text-slate-700 sm:flex">
-          <Link href="/services" className="hover:text-[#0b3d91]">
+        <nav className="hidden items-center gap-6 text-sm font-medium text-white/80 sm:flex">
+          <Link href="/services" className="hover:text-white">
             Nos formules
           </Link>
-          <Link href="/contact" className="hover:text-[#0b3d91]">
+          <Link href="/contact" className="hover:text-white">
             Contact
           </Link>
-          <Link href="/admin" className="hover:text-[#0b3d91]">
+          <Link href="/admin" className="hover:text-white">
             Espace pro
           </Link>
         </nav>
         <Link
           href="/reserver"
-          className="rounded-full bg-[#0b3d91] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0a2f70]"
+          className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-4 py-2 text-sm font-semibold text-white shadow-[0_0_20px_-4px_#a855f7] transition hover:brightness-110"
         >
           Réserver
         </Link>

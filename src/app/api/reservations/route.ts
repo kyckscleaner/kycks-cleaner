@@ -13,16 +13,22 @@ export async function POST(req: Request) {
 
   const data = parsed.data;
 
-  const services = await prisma.service.findMany({
-    where: { code: { in: data.serviceCodes }, active: true },
-  });
+  const [services, options] = await Promise.all([
+    prisma.service.findMany({ where: { code: { in: data.serviceCodes }, active: true } }),
+    prisma.serviceOption.findMany({ where: { code: { in: data.optionCodes }, active: true } }),
+  ]);
 
   if (services.length !== data.serviceCodes.length) {
     return NextResponse.json({ error: "Une ou plusieurs formules sont introuvables" }, { status: 400 });
   }
+  if (options.length !== data.optionCodes.length) {
+    return NextResponse.json({ error: "Une ou plusieurs options sont introuvables" }, { status: 400 });
+  }
 
   const durationMinutes = services.reduce((sum, s) => sum + s.durationMinutes, 0);
-  const totalCents = services.reduce((sum, s) => sum + s.priceCents, 0);
+  const totalCents =
+    services.reduce((sum, s) => sum + s.priceCents, 0) +
+    options.reduce((sum, o) => sum + o.priceCents, 0);
 
   // Re-vérification du créneau pour éviter les doubles réservations (race condition)
   const availableSlots = await getAvailableSlots(data.date, durationMinutes);
@@ -56,6 +62,9 @@ export async function POST(req: Request) {
       totalCents,
       services: {
         create: services.map((s) => ({ serviceId: s.id, priceCents: s.priceCents })),
+      },
+      options: {
+        create: options.map((o) => ({ optionId: o.id, priceCents: o.priceCents })),
       },
     },
   });

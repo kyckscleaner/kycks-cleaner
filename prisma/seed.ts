@@ -25,29 +25,26 @@ async function main() {
   const services = [
     {
       code: "interieur",
-      name: "Nettoyage intérieur complet",
-      description:
-        "Aspiration complète, nettoyage des plastiques et cuirs, vitres intérieures, désinfection, shampouinage sièges/moquette sur demande.",
-      priceCents: 6000,
-      durationMinutes: 90,
+      name: "Intérieur",
+      description: "Sièges compris, sauf tâche importante.",
+      priceCents: 2000,
+      durationMinutes: 45,
       order: 1,
     },
     {
       code: "exterieur",
-      name: "Nettoyage extérieur complet",
-      description:
-        "Prélavage, lavage carrosserie, jantes et passages de roue, vitres extérieures, séchage microfibre, pneus lustrés.",
-      priceCents: 5000,
-      durationMinutes: 75,
+      name: "Extérieur",
+      description: "Carrosserie, jantes, vitres extérieures, séchage.",
+      priceCents: 3000,
+      durationMinutes: 45,
       order: 2,
     },
     {
       code: "complet",
-      name: "Formule complète (intérieur + extérieur)",
-      description:
-        "La totale : intérieur et extérieur pour un véhicule qui ressort comme neuf. Formule la plus demandée.",
-      priceCents: 9500,
-      durationMinutes: 150,
+      name: "Complet",
+      description: "Intérieur + extérieur. La formule la plus demandée.",
+      priceCents: 4500,
+      durationMinutes: 75,
       order: 3,
     },
   ];
@@ -57,6 +54,24 @@ async function main() {
       where: { code: service.code },
       update: service,
       create: service,
+    });
+  }
+
+  const options = [
+    { code: "shampoing_sieges", name: "Shampoing sièges (tâches / salissures)", priceCents: 1000, order: 1 },
+    { code: "tapis_moquettes", name: "Nettoyage tapis / moquettes", priceCents: 1000, order: 2 },
+    { code: "plastiques_tableau_bord", name: "Plastiques & tableau de bord", priceCents: 500, order: 3 },
+    { code: "jantes_tres_sales", name: "Jantes très sales", priceCents: 500, order: 4 },
+    { code: "nourrissage_cuir", name: "Nourrissage de cuir", priceCents: 1000, order: 5 },
+    { code: "poils_animaux", name: "Poils d'animaux", priceCents: 1000, order: 6 },
+    { code: "vehicule_tres_sale", name: "Véhicule très sale / odeurs", priceCents: 1000, order: 7 },
+  ];
+
+  for (const option of options) {
+    await prisma.serviceOption.upsert({
+      where: { code: option.code },
+      update: option,
+      create: option,
     });
   }
 

@@ -1,15 +1,17 @@
 import { prisma } from "@/lib/prisma";
 import { SettingsForm } from "@/components/admin/SettingsForm";
 import { ServicesPricingForm } from "@/components/admin/ServicesPricingForm";
+import { OptionsPricingForm } from "@/components/admin/OptionsPricingForm";
 
 export default async function AdminParametresPage() {
-  const [settings, services] = await Promise.all([
+  const [settings, services, options] = await Promise.all([
     prisma.businessSettings.upsert({
       where: { id: "singleton" },
       update: {},
       create: { id: "singleton" },
     }),
     prisma.service.findMany({ orderBy: { order: "asc" } }),
+    prisma.serviceOption.findMany({ orderBy: { order: "asc" } }),
   ]);
 
   return (
@@ -27,8 +29,13 @@ export default async function AdminParametresPage() {
       </section>
 
       <section>
-        <h2 className="mb-3 font-bold text-slate-900">Tarifs des prestations</h2>
+        <h2 className="mb-3 font-bold text-slate-900">Tarifs des formules</h2>
         <ServicesPricingForm services={services} />
+      </section>
+
+      <section>
+        <h2 className="mb-3 font-bold text-slate-900">Tarifs des options</h2>
+        <OptionsPricingForm options={options} />
       </section>
     </div>
   );

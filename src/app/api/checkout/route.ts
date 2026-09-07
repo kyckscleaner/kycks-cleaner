@@ -13,7 +13,11 @@ export async function POST(req: Request) {
 
   const appointment = await prisma.appointment.findUnique({
     where: { id: appointmentId },
-    include: { client: true, services: { include: { service: true } } },
+    include: {
+      client: true,
+      services: { include: { service: true } },
+      options: { include: { option: true } },
+    },
   });
 
   if (!appointment) {
@@ -47,7 +51,10 @@ export async function POST(req: Request) {
               payMode === "acompte"
                 ? "Acompte (30%) - Kycks Cleaner"
                 : "Nettoyage véhicule - Kycks Cleaner",
-            description: appointment.services.map((s) => s.service.name).join(", "),
+            description: [
+              ...appointment.services.map((s) => s.service.name),
+              ...appointment.options.map((o) => o.option.name),
+            ].join(", "),
           },
         },
         quantity: 1,

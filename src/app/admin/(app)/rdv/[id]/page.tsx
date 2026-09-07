@@ -19,6 +19,7 @@ export default async function AdminRdvDetailPage({ params }: { params: Promise<{
     include: {
       client: true,
       services: { include: { service: true } },
+      options: { include: { option: true } },
       payments: { orderBy: { createdAt: "desc" } },
     },
   });
@@ -60,6 +61,12 @@ export default async function AdminRdvDetailPage({ params }: { params: Promise<{
             <li key={s.id} className="flex justify-between">
               <span>{s.service.name}</span>
               <span>{centsToEuros(s.priceCents)}</span>
+            </li>
+          ))}
+          {appointment.options.map((o) => (
+            <li key={o.id} className="flex justify-between text-slate-500">
+              <span>+ {o.option.name}</span>
+              <span>{centsToEuros(o.priceCents)}</span>
             </li>
           ))}
         </ul>

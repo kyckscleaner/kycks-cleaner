@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Anton } from "next/font/google";
 import "./globals.css";
 import { PwaRegister } from "@/components/PwaRegister";
 
@@ -13,10 +13,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const anton = Anton({
+  variable: "--font-anton",
+  weight: "400",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "Kycks Cleaner - Nettoyage automobile à domicile",
   description:
-    "Kycks Cleaner : nettoyage intérieur et extérieur professionnel de véhicules, directement chez vous. Réservez et payez en ligne.",
+    "Kycks Cleaner : nettoyage intérieur et extérieur à domicile sur Granville et ses environs. Réservez et payez en ligne.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -30,7 +36,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b3d91",
+  themeColor: "#0a0a0d",
   width: "device-width",
   initialScale: 1,
 };
@@ -39,7 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <PwaRegister />

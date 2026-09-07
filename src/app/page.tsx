@@ -11,32 +11,42 @@ export default async function HomePage() {
   });
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-black">
       <SiteHeader />
 
-      <section className="bg-gradient-to-b from-[#0b3d91] to-[#0a2f70] px-4 py-20 text-white sm:px-6">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="mb-3 inline-block rounded-full bg-white/10 px-4 py-1 text-sm font-medium">
-            Nettoyage automobile à domicile
+      <section className="relative overflow-hidden bg-black px-4 py-24 text-white sm:px-6">
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(60% 50% at 50% 0%, rgba(124,58,237,0.35) 0%, rgba(0,0,0,0) 70%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-4xl text-center">
+          <p className="mb-4 inline-block rounded-full border border-[#a855f7]/40 bg-[#7c3aed]/10 px-4 py-1 text-sm font-medium text-[#c084fc]">
+            Nettoyage automobile à domicile — Granville et environs
           </p>
-          <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl">
-            Votre voiture, comme neuve, sans bouger de chez vous
+          <h1 className="font-[family-name:var(--font-display)] text-5xl uppercase leading-[0.95] tracking-wide sm:text-7xl">
+            Une voiture propre,
+            <br />
+            <span className="bg-gradient-to-r from-[#a855f7] to-[#e9d5ff] bg-clip-text text-transparent">
+              c&apos;est un bon moral
+            </span>
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-blue-100">
-            Kycks Cleaner intervient chez vous ou sur votre lieu de travail pour un nettoyage en
-            profondeur, intérieur et extérieur. Réservation et paiement en ligne en quelques
-            clics.
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
+            Kycks Cleaner intervient chez vous ou sur votre lieu de travail pour un nettoyage
+            intérieur et extérieur. Réservation et paiement en ligne en quelques clics.
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/reserver"
-              className="rounded-full bg-white px-6 py-3 font-semibold text-[#0b3d91] shadow-lg transition hover:bg-blue-50"
+              className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-7 py-3 font-semibold text-white shadow-[0_0_30px_-6px_#a855f7] transition hover:brightness-110"
             >
               Prendre rendez-vous
             </Link>
             <Link
               href="/services"
-              className="rounded-full border border-white/40 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
+              className="rounded-full border border-white/20 px-7 py-3 font-semibold text-white transition hover:bg-white/10"
             >
               Voir les formules
             </Link>
@@ -44,26 +54,29 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6">
+      <section className="bg-black px-4 py-16 sm:px-6">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-center text-3xl font-bold text-slate-900">Nos formules</h2>
-          <p className="mx-auto mt-2 max-w-xl text-center text-slate-600">
-            Un vrai gros nettoyage, pas un simple coup d&apos;éponge. Choisissez la formule qui
-            correspond à votre besoin.
+          <h2 className="text-center font-[family-name:var(--font-display)] text-3xl uppercase tracking-wide text-white sm:text-4xl">
+            Nos formules
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-center text-white/60">
+            Un vrai gros nettoyage, pas un simple coup d&apos;éponge.
           </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-3">
             {services.map((service) => (
               <div
                 key={service.id}
-                className="flex flex-col rounded-2xl border border-slate-200 p-6 shadow-sm transition hover:shadow-md"
+                className="flex flex-col rounded-2xl border border-white/10 bg-[#16141c] p-6 shadow-lg transition hover:border-[#a855f7]/50"
               >
-                <h3 className="text-lg font-bold text-slate-900">{service.name}</h3>
-                <p className="mt-2 flex-1 text-sm text-slate-600">{service.description}</p>
+                <h3 className="font-[family-name:var(--font-display)] text-lg uppercase tracking-wide text-white">
+                  {service.name}
+                </h3>
+                <p className="mt-2 flex-1 text-sm text-white/60">{service.description}</p>
                 <div className="mt-4 flex items-center justify-between">
-                  <span className="text-2xl font-extrabold text-[#0b3d91]">
+                  <span className="text-2xl font-extrabold text-[#a855f7]">
                     {centsToEuros(service.priceCents)}
                   </span>
-                  <span className="text-xs text-slate-400">~{service.durationMinutes} min</span>
+                  <span className="text-xs text-white/30">~{service.durationMinutes} min</span>
                 </div>
               </div>
             ))}
@@ -71,7 +84,7 @@ export default async function HomePage() {
           <div className="mt-10 text-center">
             <Link
               href="/reserver"
-              className="rounded-full bg-[#0b3d91] px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-[#0a2f70]"
+              className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-7 py-3 font-semibold text-white shadow-[0_0_30px_-6px_#a855f7] transition hover:brightness-110"
             >
               Réserver maintenant
             </Link>
@@ -79,7 +92,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="bg-slate-50 px-4 py-16 sm:px-6">
+      <section className="border-t border-white/10 bg-[#0f0d13] px-4 py-16 sm:px-6">
         <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-3">
           {[
             {
@@ -91,13 +104,15 @@ export default async function HomePage() {
               desc: "Réglez votre RDV directement en ligne au moment de la réservation.",
             },
             {
-              title: "Suivi simple et transparent",
-              desc: "Confirmation, rappel et historique de vos rendez-vous.",
+              title: "Granville et environs",
+              desc: "Intervention dans un rayon de 10 km autour de Granville, sur rendez-vous.",
             },
           ].map((item) => (
             <div key={item.title} className="text-center">
-              <h3 className="font-bold text-slate-900">{item.title}</h3>
-              <p className="mt-2 text-sm text-slate-600">{item.desc}</p>
+              <h3 className="font-[family-name:var(--font-display)] uppercase tracking-wide text-white">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-sm text-white/60">{item.desc}</p>
             </div>
           ))}
         </div>
