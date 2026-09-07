@@ -4,6 +4,7 @@ import { reservationSchema } from "@/lib/validation";
 import { getAvailableSlots } from "@/lib/availability";
 import { getClientIdFromSession } from "@/lib/clientAuth";
 import { REFERRAL_DISCOUNT_PERCENT } from "@/lib/referral";
+import { sendBookingConfirmationEmail } from "@/lib/bookingEmail";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -94,6 +95,18 @@ export async function POST(req: Request) {
       data: { referralDiscountAvailable: false },
     });
   }
+
+  await sendBookingConfirmationEmail({
+    clientEmail: client.email,
+    clientName: client.name,
+    date: appointmentDate,
+    address: data.address,
+    city: data.city,
+    postalCode: data.postalCode,
+    serviceNames: services.map((s) => s.name),
+    totalCents,
+    discountCents,
+  });
 
   return NextResponse.json({ appointmentId: appointment.id, totalCents });
 }
