@@ -60,6 +60,11 @@ export default async function ComptePage() {
               proposée automatiquement à votre prochaine réservation.
             </p>
           )}
+          {client.referredById && client.referralBlockedReason && (
+            <p className="mt-4 rounded-lg bg-amber-500/10 px-3 py-2 text-sm text-amber-300">
+              Le parrainage associé à votre inscription n&apos;a pas pu être validé.
+            </p>
+          )}
         </section>
 
         <section className="mt-8">

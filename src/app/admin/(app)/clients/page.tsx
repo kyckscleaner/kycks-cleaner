@@ -46,6 +46,13 @@ export default async function AdminClientsPage() {
                     <span className="rounded-full bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400">
                       -10% dispo
                     </span>
+                  ) : client.referralBlockedReason ? (
+                    <span
+                      title={client.referralBlockedReason}
+                      className="rounded-full bg-red-500/10 px-2 py-1 text-xs font-medium text-red-400"
+                    >
+                      Parrainage refusé
+                    </span>
                   ) : (
                     <span className="text-white/20">—</span>
                   )}

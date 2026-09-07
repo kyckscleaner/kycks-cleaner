@@ -45,6 +45,7 @@ model Client {
   email        String        @unique
   phone        String
   passwordHash String? // null tant que le client n'a pas créé de compte
+  signupIp     String? // adresse IP à l'inscription, utilisée pour détecter l'auto-parrainage
   createdAt    DateTime      @default(now())
   appointments Appointment[]
 
@@ -53,6 +54,7 @@ model Client {
   referredBy                Client?  @relation("Referrals", fields: [referredById], references: [id])
   referrals                 Client[] @relation("Referrals")
   referralDiscountAvailable Boolean  @default(false) // réduction de parrainage à utiliser sur le prochain RDV
+  referralBlockedReason     String? // renseigné si le parrainage a été refusé (fraude suspectée)
 }
 
 enum AppointmentStatus {

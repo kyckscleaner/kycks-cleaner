@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { clientSignupSchema } from "@/lib/clientValidation";
 import { generateUniqueReferralCode } from "@/lib/referral";
 import { createClientSession } from "@/lib/clientAuth";
+import { getClientIp } from "@/lib/requestIp";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -15,6 +16,7 @@ export async function POST(req: Request) {
 
   const data = parsed.data;
   const passwordHash = await bcrypt.hash(data.password, 10);
+  const signupIp = getClientIp(req);
 
   const existing = await prisma.client.findUnique({ where: { email: data.email } });
   if (existing?.passwordHash) {
@@ -29,6 +31,18 @@ export async function POST(req: Request) {
     referrer = await prisma.client.findUnique({ where: { referralCode: data.referralCode.toUpperCase() } });
   }
 
+  // Anti-fraude parrainage : même IP (même foyer/appareil) ou même téléphone que le parrain
+  // => on garde le lien de parrainage pour la traçabilité, mais aucune réduction n'est accordée.
+  let referralBlockedReason: string | null = null;
+  if (referrer) {
+    if (referrer.phone === data.phone) {
+      referralBlockedReason = "Même numéro de téléphone que le parrain";
+    } else if (signupIp && referrer.signupIp && signupIp === referrer.signupIp) {
+      referralBlockedReason = "Même connexion internet que le parrain";
+    }
+  }
+  const referralValid = !!referrer && !referralBlockedReason;
+
   const ownReferralCode = await generateUniqueReferralCode();
 
   const client = existing
@@ -38,9 +52,11 @@ export async function POST(req: Request) {
           name: data.name,
           phone: data.phone,
           passwordHash,
+          signupIp: existing.signupIp ?? signupIp,
           referralCode: existing.referralCode ?? ownReferralCode,
           referredById: referrer && referrer.id !== existing.id ? referrer.id : undefined,
-          referralDiscountAvailable: referrer && referrer.id !== existing.id ? true : undefined,
+          referralDiscountAvailable: referrer && referrer.id !== existing.id ? referralValid : undefined,
+          referralBlockedReason: referrer && referrer.id !== existing.id ? referralBlockedReason : undefined,
         },
       })
     : await prisma.client.create({
@@ -49,13 +65,15 @@ export async function POST(req: Request) {
           email: data.email,
           phone: data.phone,
           passwordHash,
+          signupIp,
           referralCode: ownReferralCode,
           referredById: referrer?.id,
-          referralDiscountAvailable: !!referrer,
+          referralDiscountAvailable: referralValid,
+          referralBlockedReason,
         },
       });
 
-  if (referrer) {
+  if (referrer && referralValid) {
     await prisma.client.update({
       where: { id: referrer.id },
       data: { referralDiscountAvailable: true },

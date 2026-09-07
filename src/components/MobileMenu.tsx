@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 export function MobileMenu({
   isLoggedIn,
@@ -12,7 +14,19 @@ export function MobileMenu({
   clientFirstName?: string;
   isAdmin?: boolean;
 }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+
+  async function handleLogout() {
+    if (isAdmin) {
+      await signOut({ redirect: false });
+    } else {
+      await fetch("/api/client/logout", { method: "POST" });
+    }
+    setOpen(false);
+    router.push("/");
+    router.refresh();
+  }
 
   return (
     <div className="sm:hidden">
@@ -36,14 +50,23 @@ export function MobileMenu({
               <Link href="/admin" onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/5">
                 Espace pro
               </Link>
+            ) : isLoggedIn ? (
+              <Link href="/compte" onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/5">
+                Mon compte ({clientFirstName})
+              </Link>
             ) : (
               <Link
-                href={isLoggedIn ? "/compte" : "/compte/connexion"}
+                href="/compte/connexion"
                 onClick={() => setOpen(false)}
                 className="rounded-lg px-3 py-2 hover:bg-white/5"
               >
-                {isLoggedIn ? `Mon compte (${clientFirstName})` : "Se connecter"}
+                Se connecter
               </Link>
+            )}
+            {(isLoggedIn || isAdmin) && (
+              <button onClick={handleLogout} className="rounded-lg px-3 py-2 text-left text-red-400 hover:bg-white/5">
+                Déconnexion
+              </button>
             )}
           </nav>
         </div>

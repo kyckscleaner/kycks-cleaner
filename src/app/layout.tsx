@@ -19,10 +19,13 @@ const anton = Anton({
   subsets: ["latin"],
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://kycks-cleaner.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: "Kycks Cleaner - Nettoyage automobile à domicile",
   description:
-    "Kycks Cleaner : nettoyage intérieur et extérieur à domicile sur Granville et ses environs. Réservez et payez en ligne.",
+    "Kycks Cleaner : nettoyage intérieur et extérieur à domicile sur Granville et ses environs. Réservation en ligne, paiement sur place.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -32,6 +35,19 @@ export const metadata: Metadata = {
   icons: {
     icon: "/api/icon/192",
     apple: "/api/icon/180",
+  },
+  openGraph: {
+    title: "Kycks Cleaner - Nettoyage automobile à domicile",
+    description: "Nettoyage intérieur et extérieur à domicile sur Granville et ses environs.",
+    url: baseUrl,
+    siteName: "Kycks Cleaner",
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kycks Cleaner - Nettoyage automobile à domicile",
+    description: "Nettoyage intérieur et extérieur à domicile sur Granville et ses environs.",
   },
 };
 

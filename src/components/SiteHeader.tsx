@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getCurrentClient } from "@/lib/getCurrentClient";
 import { auth } from "@/auth";
 import { MobileMenu } from "@/components/MobileMenu";
+import { AccountMenu } from "@/components/AccountMenu";
 
 export async function SiteHeader() {
   const [client, adminSession] = await Promise.all([getCurrentClient(), auth()]);
@@ -40,12 +41,12 @@ export async function SiteHeader() {
             Contact
           </Link>
           {isAdmin ? (
-            <Link href="/admin" className="hover:text-white">
-              Espace pro
-            </Link>
+            <AccountMenu variant="admin" label="Espace pro" href="/admin" />
+          ) : client ? (
+            <AccountMenu variant="client" label={`Bonjour ${client.name.split(" ")[0]}`} href="/compte" />
           ) : (
-            <Link href={client ? "/compte" : "/compte/connexion"} className="hover:text-white">
-              {client ? `Bonjour ${client.name.split(" ")[0]}` : "Se connecter"}
+            <Link href="/compte/connexion" className="hover:text-white">
+              Se connecter
             </Link>
           )}
         </nav>
