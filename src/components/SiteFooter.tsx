@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function SiteFooter() {
   return (
     <footer className="mt-auto border-t border-white/10 bg-black">
@@ -8,9 +10,17 @@ export function SiteFooter() {
           </p>
           <p>Une voiture propre, c&apos;est un bon moral !</p>
         </div>
-        <p className="mt-4 text-xs text-white/30">
-          © {new Date().getFullYear()} Kycks Cleaner — Micro-entreprise — Granville et environs
-        </p>
+        <div className="mt-4 flex flex-col gap-2 border-t border-white/10 pt-4 text-xs text-white/30 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} Kycks Cleaner — Micro-entreprise — Granville et environs</p>
+          <div className="flex gap-4">
+            <Link href="/mentions-legales" className="hover:text-white/60">
+              Mentions légales
+            </Link>
+            <Link href="/politique-de-confidentialite" className="hover:text-white/60">
+              Confidentialité
+            </Link>
+          </div>
+        </div>
       </div>
     </footer>
   );
