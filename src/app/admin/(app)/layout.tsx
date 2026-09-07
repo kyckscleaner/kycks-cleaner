@@ -22,7 +22,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <div className="flex min-h-screen bg-black">
       <aside className="hidden w-64 shrink-0 flex-col border-r border-white/10 bg-[#0f0d13] p-4 sm:flex">
         <Link href="/" className="mb-8 px-2">
-          <Logo size="text-lg" />
+          <Logo height={28} />
         </Link>
         <nav className="flex flex-1 flex-col gap-1">
           {NAV_ITEMS.map((item) => (

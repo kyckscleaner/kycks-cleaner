@@ -1,12 +1,14 @@
-export function Logo({ size = "text-2xl" }: { size?: string }) {
+import Image from "next/image";
+
+export function Logo({ height = 32 }: { height?: number }) {
   return (
-    <span className={`inline-flex items-baseline gap-1.5 ${size}`}>
-      <span className="font-[family-name:var(--font-brand-bold)] uppercase tracking-wide text-white">
-        Kycks
-      </span>
-      <span className="font-[family-name:var(--font-brand-script)] text-[1.15em] text-[#a855f7]">
-        Cleaner
-      </span>
-    </span>
+    <Image
+      src="/logo.png"
+      alt="Kycks Cleaner"
+      width={height * (520 / 235)}
+      height={height}
+      style={{ height: `${height}px`, width: "auto" }}
+      priority
+    />
   );
 }
