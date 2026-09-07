@@ -68,7 +68,7 @@ export function AppointmentActions({
   return (
     <div className="space-y-6">
       <div>
-        <p className="mb-2 text-sm font-medium text-slate-700">Statut du rendez-vous</p>
+        <p className="mb-2 text-sm font-medium text-white/70">Statut du rendez-vous</p>
         <div className="flex flex-wrap gap-2">
           {STATUSES.map((s) => (
             <button
@@ -77,8 +77,8 @@ export function AppointmentActions({
               onClick={() => updateStatus(s.value)}
               className={`rounded-full border px-3 py-1.5 text-sm ${
                 status === s.value
-                  ? "border-[#0b3d91] bg-[#0b3d91] text-white"
-                  : "border-slate-200 text-slate-700 hover:border-slate-300"
+                  ? "border-[#a855f7] bg-[#a855f7] text-white"
+                  : "border-white/15 text-white/70 hover:border-white/30"
               }`}
             >
               {s.label}
@@ -88,8 +88,8 @@ export function AppointmentActions({
       </div>
 
       {remainingCents > 0 && (
-        <form onSubmit={recordPayment} className="rounded-xl border border-slate-200 p-4">
-          <p className="mb-3 text-sm font-medium text-slate-700">
+        <form onSubmit={recordPayment} className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <p className="mb-3 text-sm font-medium text-white/70">
             Encaisser un paiement (espèces, virement, chèque, ou carte sur place)
           </p>
           <div className="flex flex-wrap items-center gap-2">
@@ -99,13 +99,13 @@ export function AppointmentActions({
               min="0"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="w-28 rounded-lg border border-slate-300 px-3 py-2"
+              className="w-28 rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white"
               placeholder="Montant €"
             />
             <select
               value={method}
               onChange={(e) => setMethod(e.target.value)}
-              className="rounded-lg border border-slate-300 px-3 py-2"
+              className="rounded-lg border border-white/15 bg-[#16141c] px-3 py-2 text-white"
             >
               {PAYMENT_METHODS.map((m) => (
                 <option key={m.value} value={m.value}>
@@ -116,12 +116,12 @@ export function AppointmentActions({
             <button
               type="submit"
               disabled={recording}
-              className="rounded-full bg-[#0b3d91] px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+              className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
             >
               {recording ? "Enregistrement..." : "Encaisser"}
             </button>
           </div>
-          {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+          {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
         </form>
       )}
     </div>

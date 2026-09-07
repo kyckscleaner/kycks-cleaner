@@ -18,17 +18,20 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!session) redirect("/admin/login");
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-slate-200 bg-white p-4 sm:flex">
-        <Link href="/" className="mb-8 px-2 text-lg font-bold text-slate-900">
-          Kycks <span className="text-[#0b3d91]">Cleaner</span>
+    <div className="flex min-h-screen bg-black">
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-white/10 bg-[#0f0d13] p-4 sm:flex">
+        <Link
+          href="/"
+          className="mb-8 px-2 font-[family-name:var(--font-display)] text-lg uppercase tracking-wide text-white"
+        >
+          Kycks <span className="text-[#a855f7]">Cleaner</span>
         </Link>
         <nav className="flex flex-1 flex-col gap-1">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+              className="rounded-lg px-3 py-2 text-sm font-medium text-white/70 hover:bg-white/5 hover:text-white"
             >
               {item.label}
             </Link>
@@ -40,15 +43,17 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             await signOut({ redirectTo: "/admin/login" });
           }}
         >
-          <button className="w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-500 hover:bg-slate-100">
+          <button className="w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-white/40 hover:bg-white/5 hover:text-white/70">
             Déconnexion ({session.user?.name})
           </button>
         </form>
       </aside>
 
       <div className="flex-1">
-        <header className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 sm:hidden">
-          <span className="font-bold">Kycks Cleaner — Admin</span>
+        <header className="flex items-center justify-between border-b border-white/10 bg-[#0f0d13] px-4 py-3 sm:hidden">
+          <span className="font-[family-name:var(--font-display)] uppercase tracking-wide text-white">
+            Kycks Cleaner — Admin
+          </span>
         </header>
         <main className="p-4 sm:p-8">{children}</main>
       </div>

@@ -17,24 +17,32 @@ export default async function AdminParametresPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-10">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Paramètres</h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <h1 className="font-[family-name:var(--font-display)] text-2xl uppercase tracking-wide text-white">
+          Paramètres
+        </h1>
+        <p className="mt-1 text-sm text-white/50">
           Configurez votre micro-entreprise et vos tarifs.
         </p>
       </div>
 
       <section>
-        <h2 className="mb-3 font-bold text-slate-900">Micro-entreprise & fiscalité</h2>
+        <h2 className="mb-3 font-[family-name:var(--font-display)] uppercase tracking-wide text-white">
+          Micro-entreprise & fiscalité
+        </h2>
         <SettingsForm settings={settings} />
       </section>
 
       <section>
-        <h2 className="mb-3 font-bold text-slate-900">Tarifs des formules</h2>
+        <h2 className="mb-3 font-[family-name:var(--font-display)] uppercase tracking-wide text-white">
+          Tarifs des formules
+        </h2>
         <ServicesPricingForm services={services} />
       </section>
 
       <section>
-        <h2 className="mb-3 font-bold text-slate-900">Tarifs des options</h2>
+        <h2 className="mb-3 font-[family-name:var(--font-display)] uppercase tracking-wide text-white">
+          Tarifs des options
+        </h2>
         <OptionsPricingForm options={options} />
       </section>
     </div>

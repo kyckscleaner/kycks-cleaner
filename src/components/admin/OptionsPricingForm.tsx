@@ -35,9 +35,9 @@ export function OptionsPricingForm({ options }: { options: Option[] }) {
   }
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+    <div className="overflow-x-auto rounded-2xl border border-white/10 bg-[#16141c]">
       <table className="w-full text-left text-sm">
-        <thead className="border-b border-slate-200 bg-slate-50 text-slate-500">
+        <thead className="border-b border-white/10 bg-white/5 text-white/50">
           <tr>
             <th className="px-4 py-3">Option</th>
             <th className="px-4 py-3">Prix (€)</th>
@@ -47,8 +47,8 @@ export function OptionsPricingForm({ options }: { options: Option[] }) {
         </thead>
         <tbody>
           {options.map((option, i) => (
-            <tr key={option.id} className="border-b border-slate-100 last:border-0">
-              <td className="px-4 py-3 font-medium text-slate-900">{option.name}</td>
+            <tr key={option.id} className="border-b border-white/5 last:border-0">
+              <td className="px-4 py-3 font-medium text-white">{option.name}</td>
               <td className="px-4 py-3">
                 <input
                   type="number"
@@ -59,7 +59,7 @@ export function OptionsPricingForm({ options }: { options: Option[] }) {
                     next[i] = { ...next[i], priceEuros: e.target.value };
                     setRows(next);
                   }}
-                  className="w-24 rounded-lg border border-slate-300 px-2 py-1"
+                  className="w-24 rounded-lg border border-white/15 bg-white/5 px-2 py-1 text-white"
                 />
               </td>
               <td className="px-4 py-3">
@@ -78,7 +78,7 @@ export function OptionsPricingForm({ options }: { options: Option[] }) {
                 <button
                   onClick={() => save(option.id)}
                   disabled={savingId === option.id}
-                  className="rounded-full bg-[#0b3d91] px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-50"
+                  className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-50"
                 >
                   {savingId === option.id ? "..." : "Enregistrer"}
                 </button>

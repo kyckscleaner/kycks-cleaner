@@ -24,45 +24,49 @@ export default async function AdminDashboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900">Tableau de bord</h1>
+      <h1 className="font-[family-name:var(--font-display)] text-2xl uppercase tracking-wide text-white">
+        Tableau de bord
+      </h1>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6">
-          <p className="text-sm text-slate-500">Encaissé ce mois-ci</p>
-          <p className="mt-1 text-2xl font-extrabold text-[#0b3d91]">{centsToEuros(monthTotalCents)}</p>
+        <div className="rounded-2xl border border-white/10 bg-[#16141c] p-6">
+          <p className="text-sm text-white/50">Encaissé ce mois-ci</p>
+          <p className="mt-1 text-2xl font-extrabold text-[#a855f7]">{centsToEuros(monthTotalCents)}</p>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-6">
-          <p className="text-sm text-slate-500">Prochains rendez-vous</p>
-          <p className="mt-1 text-2xl font-extrabold text-slate-900">{upcoming.length}</p>
+        <div className="rounded-2xl border border-white/10 bg-[#16141c] p-6">
+          <p className="text-sm text-white/50">Prochains rendez-vous</p>
+          <p className="mt-1 text-2xl font-extrabold text-white">{upcoming.length}</p>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-6">
-          <p className="text-sm text-slate-500">RDV en attente de confirmation</p>
-          <p className="mt-1 text-2xl font-extrabold text-slate-900">{pendingCount}</p>
+        <div className="rounded-2xl border border-white/10 bg-[#16141c] p-6">
+          <p className="text-sm text-white/50">RDV en attente de confirmation</p>
+          <p className="mt-1 text-2xl font-extrabold text-white">{pendingCount}</p>
         </div>
       </div>
 
-      <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6">
+      <div className="mt-8 rounded-2xl border border-white/10 bg-[#16141c] p-6">
         <div className="flex items-center justify-between">
-          <h2 className="font-bold text-slate-900">Prochains rendez-vous</h2>
-          <Link href="/admin/rdv" className="text-sm font-medium text-[#0b3d91]">
+          <h2 className="font-[family-name:var(--font-display)] uppercase tracking-wide text-white">
+            Prochains rendez-vous
+          </h2>
+          <Link href="/admin/rdv" className="text-sm font-medium text-[#a855f7] hover:underline">
             Voir tous les RDV →
           </Link>
         </div>
-        <div className="mt-4 divide-y divide-slate-100">
-          {upcoming.length === 0 && <p className="py-4 text-sm text-slate-400">Aucun rendez-vous à venir.</p>}
+        <div className="mt-4 divide-y divide-white/10">
+          {upcoming.length === 0 && <p className="py-4 text-sm text-white/40">Aucun rendez-vous à venir.</p>}
           {upcoming.map((appt) => (
             <Link
               key={appt.id}
               href={`/admin/rdv/${appt.id}`}
-              className="flex items-center justify-between py-3 text-sm hover:bg-slate-50"
+              className="flex items-center justify-between py-3 text-sm hover:bg-white/5"
             >
               <div>
-                <p className="font-medium text-slate-900">{appt.client.name}</p>
-                <p className="text-slate-500">
+                <p className="font-medium text-white">{appt.client.name}</p>
+                <p className="text-white/50">
                   {appt.services.map((s) => s.service.name).join(", ")}
                 </p>
               </div>
-              <p className="text-slate-600">
+              <p className="text-white/60">
                 {appt.date.toLocaleDateString("fr-FR")} à{" "}
                 {appt.date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
               </p>

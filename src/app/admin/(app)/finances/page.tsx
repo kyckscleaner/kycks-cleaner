@@ -9,33 +9,33 @@ const MONTH_LABELS = [
 
 function SummaryCard({ summary }: { summary: PeriodTaxSummary }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6">
-      <p className="text-sm font-medium text-slate-500">{summary.periodLabel}</p>
-      <p className="mt-1 text-3xl font-extrabold text-slate-900">
+    <div className="rounded-2xl border border-white/10 bg-[#16141c] p-6">
+      <p className="text-sm font-medium text-white/50">{summary.periodLabel}</p>
+      <p className="mt-1 text-3xl font-extrabold text-white">
         {centsToEuros(summary.caEncaisseCents)}
       </p>
-      <p className="text-xs text-slate-400">Chiffre d&apos;affaires encaissé</p>
+      <p className="text-xs text-white/30">Chiffre d&apos;affaires encaissé</p>
 
       <div className="mt-4 space-y-1 text-sm">
         <div className="flex justify-between">
-          <span className="text-slate-600">Cotisations sociales</span>
-          <span className="font-medium text-slate-900">{centsToEuros(summary.cotisationsSocialesCents)}</span>
+          <span className="text-white/60">Cotisations sociales</span>
+          <span className="font-medium text-white">{centsToEuros(summary.cotisationsSocialesCents)}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-slate-600">Contribution formation pro</span>
-          <span className="font-medium text-slate-900">{centsToEuros(summary.cfpCents)}</span>
+          <span className="text-white/60">Contribution formation pro</span>
+          <span className="font-medium text-white">{centsToEuros(summary.cfpCents)}</span>
         </div>
         {summary.versementLiberatoireCents > 0 && (
           <div className="flex justify-between">
-            <span className="text-slate-600">Impôt (versement libératoire)</span>
-            <span className="font-medium text-slate-900">{centsToEuros(summary.versementLiberatoireCents)}</span>
+            <span className="text-white/60">Impôt (versement libératoire)</span>
+            <span className="font-medium text-white">{centsToEuros(summary.versementLiberatoireCents)}</span>
           </div>
         )}
-        <div className="flex justify-between border-t border-slate-100 pt-2 font-bold">
-          <span className="text-slate-900">Total à déclarer / payer</span>
-          <span className="text-[#0b3d91]">{centsToEuros(summary.totalAPayerCents)}</span>
+        <div className="flex justify-between border-t border-white/10 pt-2 font-bold">
+          <span className="text-white">Total à déclarer / payer</span>
+          <span className="text-[#a855f7]">{centsToEuros(summary.totalAPayerCents)}</span>
         </div>
-        <div className="flex justify-between text-slate-500">
+        <div className="flex justify-between text-white/50">
           <span>Net pour vous</span>
           <span>{centsToEuros(summary.netPourEntrepreneurCents)}</span>
         </div>
@@ -88,20 +88,22 @@ export default async function AdminFinancesPage() {
     <div>
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">URSSAF / Impôts</h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <h1 className="font-[family-name:var(--font-display)] text-2xl uppercase tracking-wide text-white">
+            URSSAF / Impôts
+          </h1>
+          <p className="mt-1 text-sm text-white/50">
             {ACTIVITY_TYPE_LABELS[settings.activityType]} — déclaration {settings.declarationFrequency}
           </p>
         </div>
         <a
           href={`/api/admin/finances/export?year=${year}`}
-          className="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-white/80 hover:bg-white/5"
         >
           Exporter les encaissements {year} (CSV)
         </a>
       </div>
 
-      <div className="mt-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
+      <div className="mt-4 rounded-xl bg-amber-500/10 p-4 text-sm text-amber-300">
         Ce module calcule un récapitulatif à partir des paiements encaissés dans l&apos;application.
         Il ne télé-déclare pas automatiquement à l&apos;URSSAF (aucune API officielle ne le permet) :
         reportez le chiffre d&apos;affaires ci-dessous sur{" "}
@@ -127,9 +129,9 @@ export default async function AdminFinancesPage() {
         />
       </div>
 
-      <div className="mt-8 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+      <div className="mt-8 overflow-x-auto rounded-2xl border border-white/10 bg-[#16141c]">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-slate-200 bg-slate-50 text-slate-500">
+          <thead className="border-b border-white/10 bg-white/5 text-white/50">
             <tr>
               <th className="px-4 py-3">Mois</th>
               <th className="px-4 py-3">CA encaissé</th>
@@ -141,11 +143,11 @@ export default async function AdminFinancesPage() {
             {MONTH_LABELS.map((label, i) => {
               const summary = computeTaxSummary(label, monthlyTotals[i], settings);
               return (
-                <tr key={label} className="border-b border-slate-100 last:border-0">
-                  <td className="px-4 py-3 font-medium text-slate-900">{label}</td>
-                  <td className="px-4 py-3">{centsToEuros(summary.caEncaisseCents)}</td>
-                  <td className="px-4 py-3">{centsToEuros(summary.totalAPayerCents)}</td>
-                  <td className="px-4 py-3">{centsToEuros(summary.netPourEntrepreneurCents)}</td>
+                <tr key={label} className="border-b border-white/5 last:border-0">
+                  <td className="px-4 py-3 font-medium text-white">{label}</td>
+                  <td className="px-4 py-3 text-white/70">{centsToEuros(summary.caEncaisseCents)}</td>
+                  <td className="px-4 py-3 text-white/70">{centsToEuros(summary.totalAPayerCents)}</td>
+                  <td className="px-4 py-3 text-white/70">{centsToEuros(summary.netPourEntrepreneurCents)}</td>
                 </tr>
               );
             })}

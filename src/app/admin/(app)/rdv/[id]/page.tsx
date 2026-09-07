@@ -33,30 +33,34 @@ export default async function AdminRdvDetailPage({ params }: { params: Promise<{
 
   return (
     <div className="mx-auto max-w-3xl">
-      <h1 className="text-2xl font-bold text-slate-900">Rendez-vous du {appointment.date.toLocaleDateString("fr-FR")}</h1>
+      <h1 className="font-[family-name:var(--font-display)] text-2xl uppercase tracking-wide text-white">
+        Rendez-vous du {appointment.date.toLocaleDateString("fr-FR")}
+      </h1>
 
       <div className="mt-6 grid gap-6 sm:grid-cols-2">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6">
-          <h2 className="font-bold text-slate-900">Client</h2>
-          <p className="mt-2 text-sm text-slate-700">{appointment.client.name}</p>
-          <p className="text-sm text-slate-500">{appointment.client.email}</p>
-          <p className="text-sm text-slate-500">{appointment.client.phone}</p>
+        <div className="rounded-2xl border border-white/10 bg-[#16141c] p-6">
+          <h2 className="font-[family-name:var(--font-display)] uppercase tracking-wide text-white">Client</h2>
+          <p className="mt-2 text-sm text-white/80">{appointment.client.name}</p>
+          <p className="text-sm text-white/50">{appointment.client.email}</p>
+          <p className="text-sm text-white/50">{appointment.client.phone}</p>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-6">
-          <h2 className="font-bold text-slate-900">Lieu d&apos;intervention</h2>
-          <p className="mt-2 text-sm text-slate-700">{appointment.address}</p>
-          <p className="text-sm text-slate-500">
+        <div className="rounded-2xl border border-white/10 bg-[#16141c] p-6">
+          <h2 className="font-[family-name:var(--font-display)] uppercase tracking-wide text-white">
+            Lieu d&apos;intervention
+          </h2>
+          <p className="mt-2 text-sm text-white/80">{appointment.address}</p>
+          <p className="text-sm text-white/50">
             {appointment.postalCode} {appointment.city}
           </p>
           {appointment.vehicleInfo && (
-            <p className="mt-2 text-sm text-slate-500">Véhicule : {appointment.vehicleInfo}</p>
+            <p className="mt-2 text-sm text-white/50">Véhicule : {appointment.vehicleInfo}</p>
           )}
         </div>
       </div>
 
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="font-bold text-slate-900">Prestations</h2>
-        <ul className="mt-2 space-y-1 text-sm text-slate-700">
+      <div className="mt-6 rounded-2xl border border-white/10 bg-[#16141c] p-6">
+        <h2 className="font-[family-name:var(--font-display)] uppercase tracking-wide text-white">Prestations</h2>
+        <ul className="mt-2 space-y-1 text-sm text-white/80">
           {appointment.services.map((s) => (
             <li key={s.id} className="flex justify-between">
               <span>{s.service.name}</span>
@@ -64,39 +68,39 @@ export default async function AdminRdvDetailPage({ params }: { params: Promise<{
             </li>
           ))}
           {appointment.options.map((o) => (
-            <li key={o.id} className="flex justify-between text-slate-500">
+            <li key={o.id} className="flex justify-between text-white/50">
               <span>+ {o.option.name}</span>
               <span>{centsToEuros(o.priceCents)}</span>
             </li>
           ))}
         </ul>
         {appointment.discountCents > 0 && (
-          <div className="mt-3 flex justify-between border-t border-slate-100 pt-3 text-sm text-green-700">
+          <div className="mt-3 flex justify-between border-t border-white/10 pt-3 text-sm text-green-400">
             <span>Réduction parrainage</span>
             <span>-{centsToEuros(appointment.discountCents)}</span>
           </div>
         )}
-        <div className={`flex justify-between font-bold text-slate-900 ${appointment.discountCents > 0 ? "mt-1" : "mt-3 border-t border-slate-100 pt-3"}`}>
+        <div className={`flex justify-between font-bold text-white ${appointment.discountCents > 0 ? "mt-1" : "mt-3 border-t border-white/10 pt-3"}`}>
           <span>Total</span>
           <span>{centsToEuros(appointment.totalCents)}</span>
         </div>
         {appointment.notes && (
-          <p className="mt-3 text-sm text-slate-500">Notes : {appointment.notes}</p>
+          <p className="mt-3 text-sm text-white/50">Notes : {appointment.notes}</p>
         )}
       </div>
 
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="font-bold text-slate-900">Paiements</h2>
+      <div className="mt-6 rounded-2xl border border-white/10 bg-[#16141c] p-6">
+        <h2 className="font-[family-name:var(--font-display)] uppercase tracking-wide text-white">Paiements</h2>
         <div className="mt-2 flex gap-6 text-sm">
-          <p>
-            Payé : <span className="font-semibold text-green-700">{centsToEuros(paidCents)}</span>
+          <p className="text-white/70">
+            Payé : <span className="font-semibold text-green-400">{centsToEuros(paidCents)}</span>
           </p>
-          <p>
+          <p className="text-white/70">
             Restant dû :{" "}
-            <span className="font-semibold text-amber-700">{centsToEuros(remainingCents)}</span>
+            <span className="font-semibold text-amber-400">{centsToEuros(remainingCents)}</span>
           </p>
         </div>
-        <ul className="mt-3 space-y-1 text-sm text-slate-600">
+        <ul className="mt-3 space-y-1 text-sm text-white/60">
           {appointment.payments.map((p) => (
             <li key={p.id} className="flex justify-between">
               <span>
@@ -105,11 +109,11 @@ export default async function AdminRdvDetailPage({ params }: { params: Promise<{
               <span>{centsToEuros(p.amountCents)}</span>
             </li>
           ))}
-          {appointment.payments.length === 0 && <li className="text-slate-400">Aucun paiement enregistré.</li>}
+          {appointment.payments.length === 0 && <li className="text-white/30">Aucun paiement enregistré.</li>}
         </ul>
       </div>
 
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6">
+      <div className="mt-6 rounded-2xl border border-white/10 bg-[#16141c] p-6">
         <AppointmentActions
           appointmentId={appointment.id}
           currentStatus={appointment.status}

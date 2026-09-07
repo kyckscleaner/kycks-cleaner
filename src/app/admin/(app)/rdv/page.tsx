@@ -10,10 +10,10 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  PENDING: "bg-amber-100 text-amber-800",
-  CONFIRMED: "bg-blue-100 text-blue-800",
-  DONE: "bg-green-100 text-green-800",
-  CANCELLED: "bg-slate-200 text-slate-600",
+  PENDING: "bg-amber-500/10 text-amber-400",
+  CONFIRMED: "bg-[#7c3aed]/20 text-[#c084fc]",
+  DONE: "bg-green-500/10 text-green-400",
+  CANCELLED: "bg-white/10 text-white/50",
 };
 
 export default async function AdminRdvListPage() {
@@ -24,11 +24,13 @@ export default async function AdminRdvListPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900">Rendez-vous</h1>
+      <h1 className="font-[family-name:var(--font-display)] text-2xl uppercase tracking-wide text-white">
+        Rendez-vous
+      </h1>
 
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+      <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10 bg-[#16141c]">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-slate-200 bg-slate-50 text-slate-500">
+          <thead className="border-b border-white/10 bg-white/5 text-white/50">
             <tr>
               <th className="px-4 py-3">Date</th>
               <th className="px-4 py-3">Client</th>
@@ -44,23 +46,23 @@ export default async function AdminRdvListPage() {
                 .filter((p) => p.status === "PAYE")
                 .reduce((sum, p) => sum + p.amountCents, 0);
               return (
-                <tr key={appt.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50">
+                <tr key={appt.id} className="border-b border-white/5 last:border-0 hover:bg-white/5">
                   <td className="px-4 py-3">
-                    <Link href={`/admin/rdv/${appt.id}`} className="block font-medium text-slate-900">
+                    <Link href={`/admin/rdv/${appt.id}`} className="block font-medium text-white">
                       {appt.date.toLocaleDateString("fr-FR")}{" "}
                       {appt.date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
                     </Link>
                   </td>
-                  <td className="px-4 py-3">{appt.client.name}</td>
-                  <td className="px-4 py-3 text-slate-600">
+                  <td className="px-4 py-3 text-white/80">{appt.client.name}</td>
+                  <td className="px-4 py-3 text-white/60">
                     {appt.services.map((s) => s.service.name).join(", ")}
                   </td>
-                  <td className="px-4 py-3">{centsToEuros(appt.totalCents)}</td>
+                  <td className="px-4 py-3 text-white/80">{centsToEuros(appt.totalCents)}</td>
                   <td className="px-4 py-3">
                     {paidCents > 0 ? (
-                      <span className="text-green-700">{centsToEuros(paidCents)} payé</span>
+                      <span className="text-green-400">{centsToEuros(paidCents)} payé</span>
                     ) : (
-                      <span className="text-slate-400">Non payé</span>
+                      <span className="text-white/30">Non payé</span>
                     )}
                   </td>
                   <td className="px-4 py-3">
@@ -73,7 +75,7 @@ export default async function AdminRdvListPage() {
             })}
             {appointments.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-slate-400">
+                <td colSpan={6} className="px-4 py-8 text-center text-white/30">
                   Aucun rendez-vous pour le moment.
                 </td>
               </tr>
