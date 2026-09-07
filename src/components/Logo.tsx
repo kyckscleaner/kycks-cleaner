@@ -5,9 +5,10 @@ export function Logo({ height = 32 }: { height?: number }) {
     <Image
       src="/logo.png"
       alt="Kycks Cleaner"
-      width={height * (520 / 235)}
+      width={height * (470 / 215)}
       height={height}
       style={{ height: `${height}px`, width: "auto" }}
+      unoptimized
       priority
     />
   );
