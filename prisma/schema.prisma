@@ -42,8 +42,15 @@ model Client {
   name         String
   email        String        @unique
   phone        String
+  passwordHash String? // null tant que le client n'a pas créé de compte
   createdAt    DateTime      @default(now())
   appointments Appointment[]
+
+  referralCode              String?  @unique // généré à la création du compte
+  referredById              String?
+  referredBy                Client?  @relation("Referrals", fields: [referredById], references: [id])
+  referrals                 Client[] @relation("Referrals")
+  referralDiscountAvailable Boolean  @default(false) // réduction de parrainage à utiliser sur le prochain RDV
 }
 
 enum AppointmentStatus {
@@ -67,6 +74,7 @@ model Appointment {
   vehicleInfo   String? // make/model/plate notes
   notes         String?
   status        AppointmentStatus     @default(PENDING)
+  discountCents Int                   @default(0) // réduction de parrainage éventuellement appliquée
   totalCents    Int
   createdAt     DateTime              @default(now())
   updatedAt     DateTime              @updatedAt

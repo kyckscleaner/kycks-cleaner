@@ -53,11 +53,17 @@ export default async function ConfirmationPage({
             <p className="mt-1 text-sm text-white/60">
               {appointment.address}, {appointment.postalCode} {appointment.city}
             </p>
-            <p className="mt-3 text-lg font-bold text-[#a855f7]">
-              Total : {centsToEuros(appointment.totalCents)}
+            {appointment.discountCents > 0 && (
+              <p className="mt-3 text-sm text-green-400">
+                Réduction parrainage appliquée : -{centsToEuros(appointment.discountCents)}
+              </p>
+            )}
+            <p className="mt-1 text-lg font-bold text-[#a855f7]">
+              Total à régler sur place : {centsToEuros(appointment.totalCents)}
             </p>
             <p className="mt-4 text-sm text-white/40">
-              Nous vous recontacterons à {appointment.client.email} ou par téléphone si besoin.
+              Paiement sur place le jour du rendez-vous. Nous vous recontacterons à{" "}
+              {appointment.client.email} ou par téléphone si besoin.
             </p>
           </div>
         ) : (

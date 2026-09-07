@@ -35,7 +35,7 @@ export default async function HomePage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
             Kycks Cleaner intervient chez vous ou sur votre lieu de travail pour un nettoyage
-            intérieur et extérieur. Réservation et paiement en ligne en quelques clics.
+            intérieur et extérieur. Réservez en ligne, réglez sur place.
           </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
             <Link
@@ -93,28 +93,55 @@ export default async function HomePage() {
       </section>
 
       <section className="border-t border-white/10 bg-[#0f0d13] px-4 py-16 sm:px-6">
-        <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-3">
+        <h2 className="text-center font-[family-name:var(--font-display)] text-3xl uppercase tracking-wide text-white sm:text-4xl">
+          Comment ça marche
+        </h2>
+        <div className="mx-auto mt-10 grid max-w-6xl gap-8 sm:grid-cols-3">
           {[
             {
-              title: "Chez vous, où que vous soyez",
-              desc: "Domicile, bureau, parking : on vient avec tout le matériel nécessaire.",
+              step: "1",
+              title: "Réservez en ligne",
+              desc: "Choisissez votre formule, vos options et un créneau disponible en quelques clics.",
             },
             {
-              title: "Paiement en ligne sécurisé",
-              desc: "Réglez votre RDV directement en ligne au moment de la réservation.",
+              step: "2",
+              title: "On vient à vous",
+              desc: "Domicile, bureau, parking : on intervient avec tout le matériel nécessaire, où que vous soyez à Granville et ses environs.",
             },
             {
-              title: "Granville et environs",
-              desc: "Intervention dans un rayon de 10 km autour de Granville, sur rendez-vous.",
+              step: "3",
+              title: "Réglez sur place",
+              desc: "Aucun paiement en ligne requis : vous réglez directement le jour du rendez-vous.",
             },
           ].map((item) => (
-            <div key={item.title} className="text-center">
-              <h3 className="font-[family-name:var(--font-display)] uppercase tracking-wide text-white">
+            <div key={item.step} className="text-center">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#7c3aed] to-[#a855f7] font-[family-name:var(--font-display)] text-lg text-white">
+                {item.step}
+              </div>
+              <h3 className="mt-4 font-[family-name:var(--font-display)] uppercase tracking-wide text-white">
                 {item.title}
               </h3>
               <p className="mt-2 text-sm text-white/60">{item.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="bg-black px-4 py-16 sm:px-6">
+        <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 rounded-3xl border border-[#a855f7]/30 bg-gradient-to-br from-[#7c3aed]/15 to-transparent p-10 text-center">
+          <h2 className="font-[family-name:var(--font-display)] text-2xl uppercase tracking-wide text-white sm:text-3xl">
+            Parrainez, économisez
+          </h2>
+          <p className="max-w-xl text-white/70">
+            Créez un compte, partagez votre lien à vos proches : vous et la personne parrainée
+            obtenez chacun 10% de réduction sur votre prochain rendez-vous.
+          </p>
+          <Link
+            href="/compte/inscription"
+            className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-7 py-3 font-semibold text-white shadow-[0_0_30px_-6px_#a855f7] transition hover:brightness-110"
+          >
+            Créer mon compte
+          </Link>
         </div>
       </section>
 

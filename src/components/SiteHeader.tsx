@@ -1,9 +1,13 @@
 import Link from "next/link";
+import { getCurrentClient } from "@/lib/getCurrentClient";
+import { MobileMenu } from "@/components/MobileMenu";
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const client = await getCurrentClient();
+
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-black/80 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+      <div className="relative mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <Link href="/" className="flex items-center gap-2">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#7c3aed] to-[#a855f7] text-white">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -33,16 +37,22 @@ export function SiteHeader() {
           <Link href="/contact" className="hover:text-white">
             Contact
           </Link>
+          <Link href={client ? "/compte" : "/compte/connexion"} className="hover:text-white">
+            {client ? `Bonjour ${client.name.split(" ")[0]}` : "Se connecter"}
+          </Link>
           <Link href="/admin" className="hover:text-white">
             Espace pro
           </Link>
         </nav>
-        <Link
-          href="/reserver"
-          className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-4 py-2 text-sm font-semibold text-white shadow-[0_0_20px_-4px_#a855f7] transition hover:brightness-110"
-        >
-          Réserver
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/reserver"
+            className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-4 py-2 text-sm font-semibold text-white shadow-[0_0_20px_-4px_#a855f7] transition hover:brightness-110"
+          >
+            Réserver
+          </Link>
+          <MobileMenu isLoggedIn={!!client} clientFirstName={client?.name.split(" ")[0]} />
+        </div>
       </div>
     </header>
   );

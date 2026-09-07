@@ -13,6 +13,7 @@ export const reservationSchema = z.object({
   postalCode: z.string().min(4, "Code postal requis"),
   vehicleInfo: z.string().optional(),
   notes: z.string().optional(),
+  applyReferralDiscount: z.boolean().default(false),
 });
 
 export type ReservationInput = z.infer<typeof reservationSchema>;

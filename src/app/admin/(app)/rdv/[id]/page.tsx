@@ -70,7 +70,13 @@ export default async function AdminRdvDetailPage({ params }: { params: Promise<{
             </li>
           ))}
         </ul>
-        <div className="mt-3 flex justify-between border-t border-slate-100 pt-3 font-bold text-slate-900">
+        {appointment.discountCents > 0 && (
+          <div className="mt-3 flex justify-between border-t border-slate-100 pt-3 text-sm text-green-700">
+            <span>Réduction parrainage</span>
+            <span>-{centsToEuros(appointment.discountCents)}</span>
+          </div>
+        )}
+        <div className={`flex justify-between font-bold text-slate-900 ${appointment.discountCents > 0 ? "mt-1" : "mt-3 border-t border-slate-100 pt-3"}`}>
           <span>Total</span>
           <span>{centsToEuros(appointment.totalCents)}</span>
         </div>

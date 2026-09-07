@@ -18,6 +18,15 @@ type Option = {
   priceCents: number;
 };
 
+type LoggedInClient = {
+  name: string;
+  email: string;
+  phone: string;
+  referralDiscountAvailable: boolean;
+};
+
+const REFERRAL_DISCOUNT_PERCENT = 10;
+
 function centsToEuros(cents: number) {
   return (cents / 100).toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
 }
@@ -28,9 +37,17 @@ function todayISO() {
 }
 
 const inputClass =
-  "rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder:text-white/40 focus:border-[#a855f7] focus:outline-none";
+  "rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder:text-white/40 focus:border-[#a855f7] focus:outline-none disabled:opacity-60";
 
-export function ReservationForm({ services, options }: { services: Service[]; options: Option[] }) {
+export function ReservationForm({
+  services,
+  options,
+  loggedInClient,
+}: {
+  services: Service[];
+  options: Option[];
+  loggedInClient: LoggedInClient | null;
+}) {
   const searchParams = useSearchParams();
   const preselected = searchParams.get("service");
 
@@ -41,15 +58,17 @@ export function ReservationForm({ services, options }: { services: Service[]; op
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [time, setTime] = useState<string | null>(null);
 
-  const [clientName, setClientName] = useState("");
-  const [clientEmail, setClientEmail] = useState("");
-  const [clientPhone, setClientPhone] = useState("");
+  const [clientName, setClientName] = useState(loggedInClient?.name ?? "");
+  const [clientEmail, setClientEmail] = useState(loggedInClient?.email ?? "");
+  const [clientPhone, setClientPhone] = useState(loggedInClient?.phone ?? "");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [vehicleInfo, setVehicleInfo] = useState("");
   const [notes, setNotes] = useState("");
-  const [payMode, setPayMode] = useState<"total" | "acompte">("total");
+  const [useReferralDiscount, setUseReferralDiscount] = useState(
+    loggedInClient?.referralDiscountAvailable ?? false
+  );
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -62,9 +81,14 @@ export function ReservationForm({ services, options }: { services: Service[]; op
     () => options.filter((o) => selectedOptionCodes.includes(o.code)),
     [options, selectedOptionCodes]
   );
-  const totalCents =
+  const subtotalCents =
     selectedServices.reduce((sum, s) => sum + s.priceCents, 0) +
     selectedOptions.reduce((sum, o) => sum + o.priceCents, 0);
+  const discountCents =
+    loggedInClient?.referralDiscountAvailable && useReferralDiscount
+      ? Math.round((subtotalCents * REFERRAL_DISCOUNT_PERCENT) / 100)
+      : 0;
+  const totalCents = subtotalCents - discountCents;
   const totalDuration = selectedServices.reduce((sum, s) => sum + s.durationMinutes, 0);
 
   function toggleService(code: string) {
@@ -114,7 +138,7 @@ export function ReservationForm({ services, options }: { services: Service[]; op
 
     setSubmitting(true);
     try {
-      const resResa = await fetch("/api/reservations", {
+      const res = await fetch("/api/reservations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -130,28 +154,17 @@ export function ReservationForm({ services, options }: { services: Service[]; op
           postalCode,
           vehicleInfo,
           notes,
+          applyReferralDiscount: useReferralDiscount,
         }),
       });
-      const resaData = await resResa.json();
-      if (!resResa.ok) {
-        setError(resaData.error?.formErrors?.[0] ?? resaData.error ?? "Erreur lors de la réservation");
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error?.formErrors?.[0] ?? data.error ?? "Erreur lors de la réservation");
         setSubmitting(false);
         return;
       }
 
-      const resCheckout = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ appointmentId: resaData.appointmentId, payMode }),
-      });
-      const checkoutData = await resCheckout.json();
-      if (!resCheckout.ok) {
-        setError(checkoutData.error ?? "Erreur lors du paiement");
-        setSubmitting(false);
-        return;
-      }
-
-      window.location.href = checkoutData.url;
+      window.location.href = `/reservation/confirmation?appointmentId=${data.appointmentId}`;
     } catch {
       setError("Une erreur est survenue, merci de réessayer.");
       setSubmitting(false);
@@ -257,9 +270,14 @@ export function ReservationForm({ services, options }: { services: Service[]; op
         <h2 className="font-[family-name:var(--font-display)] text-lg uppercase tracking-wide text-white">
           4. Vos coordonnées et le lieu
         </h2>
+        {loggedInClient && (
+          <p className="mt-2 text-sm text-white/50">
+            Connecté en tant que <span className="text-white">{loggedInClient.email}</span>
+          </p>
+        )}
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <input required placeholder="Nom complet" value={clientName} onChange={(e) => setClientName(e.target.value)} className={`${inputClass} sm:col-span-2`} />
-          <input required type="email" placeholder="Email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} className={inputClass} />
+          <input required disabled={!!loggedInClient} placeholder="Nom complet" value={clientName} onChange={(e) => setClientName(e.target.value)} className={`${inputClass} sm:col-span-2`} />
+          <input required disabled={!!loggedInClient} type="email" placeholder="Email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} className={inputClass} />
           <input required placeholder="Téléphone" value={clientPhone} onChange={(e) => setClientPhone(e.target.value)} className={inputClass} />
           <input required placeholder="Adresse (où intervenir)" value={address} onChange={(e) => setAddress(e.target.value)} className={`${inputClass} sm:col-span-2`} />
           <input required placeholder="Ville" value={city} onChange={(e) => setCity(e.target.value)} className={inputClass} />
@@ -269,44 +287,48 @@ export function ReservationForm({ services, options }: { services: Service[]; op
         </div>
       </section>
 
-      <section>
-        <h2 className="font-[family-name:var(--font-display)] text-lg uppercase tracking-wide text-white">
-          5. Paiement
-        </h2>
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-          <button
-            type="button"
-            onClick={() => setPayMode("total")}
-            className={`flex-1 rounded-xl border p-4 text-left ${payMode === "total" ? "border-[#a855f7] bg-[#7c3aed]/10 ring-2 ring-[#a855f7]" : "border-white/15 bg-white/5"}`}
-          >
-            <p className="font-semibold text-white">Payer la totalité</p>
-            <p className="text-sm text-white/60">{centsToEuros(totalCents)}</p>
-          </button>
-          <button
-            type="button"
-            onClick={() => setPayMode("acompte")}
-            className={`flex-1 rounded-xl border p-4 text-left ${payMode === "acompte" ? "border-[#a855f7] bg-[#7c3aed]/10 ring-2 ring-[#a855f7]" : "border-white/15 bg-white/5"}`}
-          >
-            <p className="font-semibold text-white">Payer un acompte (30%)</p>
-            <p className="text-sm text-white/60">{centsToEuros(Math.round(totalCents * 0.3))} maintenant, reste sur place</p>
-          </button>
-        </div>
-      </section>
+      {loggedInClient?.referralDiscountAvailable && (
+        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-green-500/30 bg-green-500/10 p-4">
+          <input
+            type="checkbox"
+            checked={useReferralDiscount}
+            onChange={(e) => setUseReferralDiscount(e.target.checked)}
+            className="h-4 w-4"
+          />
+          <span className="text-sm text-green-400">
+            Utiliser ma réduction de parrainage (-{REFERRAL_DISCOUNT_PERCENT}%)
+          </span>
+        </label>
+      )}
 
       {error && <p className="rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-400">{error}</p>}
 
-      <div className="flex items-center justify-between border-t border-white/10 pt-6">
-        <div>
-          <p className="text-sm text-white/50">Total de la prestation</p>
-          <p className="text-2xl font-extrabold text-white">{centsToEuros(totalCents)}</p>
+      <div className="border-t border-white/10 pt-6">
+        {discountCents > 0 && (
+          <div className="mb-2 flex justify-between text-sm text-white/50">
+            <span>Sous-total</span>
+            <span>{centsToEuros(subtotalCents)}</span>
+          </div>
+        )}
+        {discountCents > 0 && (
+          <div className="mb-4 flex justify-between text-sm text-green-400">
+            <span>Réduction parrainage</span>
+            <span>-{centsToEuros(discountCents)}</span>
+          </div>
+        )}
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm text-white/50">Total à régler sur place</p>
+            <p className="text-2xl font-extrabold text-white">{centsToEuros(totalCents)}</p>
+          </div>
+          <button
+            type="submit"
+            disabled={submitting}
+            className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-6 py-3 font-semibold text-white shadow-[0_0_30px_-6px_#a855f7] transition hover:brightness-110 disabled:opacity-50"
+          >
+            {submitting ? "Réservation..." : "Confirmer le rendez-vous"}
+          </button>
         </div>
-        <button
-          type="submit"
-          disabled={submitting}
-          className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-6 py-3 font-semibold text-white shadow-[0_0_30px_-6px_#a855f7] transition hover:brightness-110 disabled:opacity-50"
-        >
-          {submitting ? "Redirection..." : "Confirmer et payer"}
-        </button>
       </div>
     </form>
   );

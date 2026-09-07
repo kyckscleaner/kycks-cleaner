@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { reservationSchema } from "@/lib/validation";
 import { getAvailableSlots } from "@/lib/availability";
+import { getClientIdFromSession } from "@/lib/clientAuth";
+import { REFERRAL_DISCOUNT_PERCENT } from "@/lib/referral";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -26,7 +28,7 @@ export async function POST(req: Request) {
   }
 
   const durationMinutes = services.reduce((sum, s) => sum + s.durationMinutes, 0);
-  const totalCents =
+  const subtotalCents =
     services.reduce((sum, s) => sum + s.priceCents, 0) +
     options.reduce((sum, o) => sum + o.priceCents, 0);
 
@@ -43,11 +45,27 @@ export async function POST(req: Request) {
   const [hour, minute] = data.time.split(":").map(Number);
   const appointmentDate = new Date(year, month - 1, day, hour, minute, 0, 0);
 
-  const client = await prisma.client.upsert({
-    where: { email: data.clientEmail },
-    update: { name: data.clientName, phone: data.clientPhone },
-    create: { name: data.clientName, email: data.clientEmail, phone: data.clientPhone },
-  });
+  // La réduction de parrainage n'est appliquée que pour un compte client authentifié
+  // (jamais sur la seule foi de l'email saisi dans le formulaire, pour éviter les abus).
+  const sessionClientId = await getClientIdFromSession();
+  const sessionClient = sessionClientId
+    ? await prisma.client.findUnique({ where: { id: sessionClientId } })
+    : null;
+
+  const client = sessionClient
+    ? await prisma.client.update({
+        where: { id: sessionClient.id },
+        data: { phone: data.clientPhone },
+      })
+    : await prisma.client.upsert({
+        where: { email: data.clientEmail },
+        update: { name: data.clientName, phone: data.clientPhone },
+        create: { name: data.clientName, email: data.clientEmail, phone: data.clientPhone },
+      });
+
+  const applyDiscount = data.applyReferralDiscount && sessionClient?.referralDiscountAvailable === true;
+  const discountCents = applyDiscount ? Math.round((subtotalCents * REFERRAL_DISCOUNT_PERCENT) / 100) : 0;
+  const totalCents = subtotalCents - discountCents;
 
   const appointment = await prisma.appointment.create({
     data: {
@@ -59,6 +77,7 @@ export async function POST(req: Request) {
       postalCode: data.postalCode,
       vehicleInfo: data.vehicleInfo,
       notes: data.notes,
+      discountCents,
       totalCents,
       services: {
         create: services.map((s) => ({ serviceId: s.id, priceCents: s.priceCents })),
@@ -68,6 +87,13 @@ export async function POST(req: Request) {
       },
     },
   });
+
+  if (applyDiscount) {
+    await prisma.client.update({
+      where: { id: client.id },
+      data: { referralDiscountAvailable: false },
+    });
+  }
 
   return NextResponse.json({ appointmentId: appointment.id, totalCents });
 }
