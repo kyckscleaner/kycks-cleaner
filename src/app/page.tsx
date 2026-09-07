@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SocialLinks } from "@/components/SocialLinks";
 import { prisma } from "@/lib/prisma";
 import { centsToEuros } from "@/lib/money";
 
@@ -50,6 +51,10 @@ export default async function HomePage() {
             >
               Voir les formules
             </Link>
+          </div>
+          <div className="mt-8 flex flex-col items-center gap-2">
+            <p className="text-sm text-white/50">Suivez-nous</p>
+            <SocialLinks />
           </div>
         </div>
       </section>
