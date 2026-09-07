@@ -4,17 +4,21 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  const passwordHash = await bcrypt.hash("kycks2026", 10);
-
-  await prisma.adminUser.upsert({
-    where: { email: "admin@kycks-cleaner.fr" },
-    update: {},
-    create: {
-      email: "admin@kycks-cleaner.fr",
-      passwordHash,
-      name: "Kylian",
-    },
-  });
+  // Le compte admin n'est jamais créé avec des identifiants codés en dur (dépôt public) :
+  // ne s'exécute que si ADMIN_EMAIL et ADMIN_PASSWORD sont fournis en variables d'environnement.
+  if (process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
+    const passwordHash = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
+    await prisma.adminUser.upsert({
+      where: { email: process.env.ADMIN_EMAIL },
+      update: { passwordHash },
+      create: {
+        email: process.env.ADMIN_EMAIL,
+        passwordHash,
+        name: process.env.ADMIN_NAME ?? "Admin",
+      },
+    });
+    console.log(`Compte admin créé/mis à jour : ${process.env.ADMIN_EMAIL}`);
+  }
 
   await prisma.businessSettings.upsert({
     where: { id: "singleton" },
@@ -76,7 +80,6 @@ async function main() {
   }
 
   console.log("Seed terminé.");
-  console.log("Connexion admin -> email: admin@kycks-cleaner.fr / mot de passe: kycks2026");
 }
 
 main()

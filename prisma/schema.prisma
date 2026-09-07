@@ -12,6 +12,8 @@ model AdminUser {
   email        String   @unique
   passwordHash String
   name         String
+  totpSecret   String? // secret TOTP (application d'authentification), null tant que non activé
+  totpEnabled  Boolean  @default(false)
   createdAt    DateTime @default(now())
 }
 
