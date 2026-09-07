@@ -40,9 +40,6 @@ export async function SiteHeader() {
           <Link href={client ? "/compte" : "/compte/connexion"} className="hover:text-white">
             {client ? `Bonjour ${client.name.split(" ")[0]}` : "Se connecter"}
           </Link>
-          <Link href="/admin" className="hover:text-white">
-            Espace pro
-          </Link>
         </nav>
         <div className="flex items-center gap-3">
           <Link

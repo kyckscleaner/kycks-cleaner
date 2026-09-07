@@ -37,9 +37,6 @@ export function MobileMenu({
             >
               {isLoggedIn ? `Mon compte (${clientFirstName})` : "Se connecter"}
             </Link>
-            <Link href="/admin" onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-white/5">
-              Espace pro
-            </Link>
           </nav>
         </div>
       )}
