@@ -2,6 +2,7 @@ import Link from "next/link";
 import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import { Logo } from "@/components/Logo";
+import { AdminMobileNav } from "@/components/admin/AdminMobileNav";
 
 const NAV_ITEMS = [
   { href: "/admin", label: "Tableau de bord" },
@@ -48,10 +49,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       </aside>
 
       <div className="flex-1">
-        <header className="flex items-center justify-between border-b border-white/10 bg-[#0f0d13] px-4 py-3 sm:hidden">
+        <header className="relative flex items-center justify-between border-b border-white/10 bg-[#0f0d13] px-4 py-3 sm:hidden">
           <span className="font-[family-name:var(--font-display)] uppercase tracking-wide text-white">
             Kycks Cleaner — Admin
           </span>
+          <AdminMobileNav adminName={session.user?.name} />
         </header>
         <main className="p-4 sm:p-8">{children}</main>
       </div>

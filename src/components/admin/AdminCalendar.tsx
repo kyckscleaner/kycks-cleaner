@@ -39,6 +39,7 @@ const CALENDAR_DARK_VARS = {
 export function AdminCalendar() {
   const router = useRouter();
   const [events, setEvents] = useState<Event[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     fetch("/api/admin/appointments")
@@ -46,20 +47,35 @@ export function AdminCalendar() {
       .then(setEvents);
   }, []);
 
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 640px)");
+    setIsMobile(query.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    query.addEventListener("change", handler);
+    return () => query.removeEventListener("change", handler);
+  }, []);
+
   return (
     <div
-      className="rounded-2xl border border-white/10 bg-[#16141c] p-4 text-white"
+      className="rounded-2xl border border-white/10 bg-[#16141c] p-2 text-white sm:p-4"
       style={CALENDAR_DARK_VARS}
     >
       <FullCalendar
+        key={isMobile ? "mobile" : "desktop"}
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView="timeGridWeek"
-        headerToolbar={{ left: "prev,next today", center: "title", right: "dayGridMonth,timeGridWeek,timeGridDay" }}
+        initialView={isMobile ? "timeGridDay" : "timeGridWeek"}
+        headerToolbar={
+          isMobile
+            ? { left: "prev,next", center: "title", right: "dayGridMonth,timeGridDay" }
+            : { left: "prev,next today", center: "title", right: "dayGridMonth,timeGridWeek,timeGridDay" }
+        }
         locale="fr"
         firstDay={1}
         slotMinTime="07:00:00"
         slotMaxTime="20:00:00"
         height="auto"
+        contentHeight="auto"
+        aspectRatio={isMobile ? 0.7 : 1.35}
         events={events.map((e) => ({
           ...e,
           backgroundColor: STATUS_COLORS[e.status] ?? "#7c3aed",

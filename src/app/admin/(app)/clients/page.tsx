@@ -12,7 +12,54 @@ export default async function AdminClientsPage() {
         Clients
       </h1>
 
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10 bg-[#16141c]">
+      {/* liste en cartes — mobile */}
+      <div className="mt-6 space-y-3 sm:hidden">
+        {clients.map((client) => (
+          <div key={client.id} className="rounded-2xl border border-white/10 bg-[#16141c] p-4">
+            <div className="flex items-center justify-between">
+              <p className="font-medium text-white">{client.name}</p>
+              {client.passwordHash ? (
+                <span className="rounded-full bg-[#7c3aed]/20 px-2 py-1 text-xs font-medium text-[#c084fc]">
+                  Créé
+                </span>
+              ) : (
+                <span className="text-xs text-white/30">Invité</span>
+              )}
+            </div>
+            <p className="mt-1 text-sm text-white/60">{client.email}</p>
+            <p className="text-sm text-white/60">{client.phone}</p>
+            <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+              <span className="rounded-full bg-white/5 px-2 py-1 text-white/60">
+                {client.appointments.length} RDV
+              </span>
+              <span className="rounded-full bg-white/5 px-2 py-1 text-white/60">
+                {client.referrals.length} filleul{client.referrals.length > 1 ? "s" : ""}
+              </span>
+              {client.referralDiscountAvailable && (
+                <span className="rounded-full bg-green-500/10 px-2 py-1 font-medium text-green-400">
+                  -10% dispo
+                </span>
+              )}
+              {client.referralBlockedReason && (
+                <span
+                  title={client.referralBlockedReason}
+                  className="rounded-full bg-red-500/10 px-2 py-1 font-medium text-red-400"
+                >
+                  Parrainage refusé
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+        {clients.length === 0 && (
+          <p className="rounded-2xl border border-white/10 bg-[#16141c] px-4 py-8 text-center text-white/30">
+            Aucun client pour le moment.
+          </p>
+        )}
+      </div>
+
+      {/* liste en tableau — desktop */}
+      <div className="mt-6 hidden overflow-x-auto rounded-2xl border border-white/10 bg-[#16141c] sm:block">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-white/10 bg-white/5 text-white/50">
             <tr>

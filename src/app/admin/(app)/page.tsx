@@ -58,7 +58,7 @@ export default async function AdminDashboardPage() {
             <Link
               key={appt.id}
               href={`/admin/rdv/${appt.id}`}
-              className="flex items-center justify-between py-3 text-sm hover:bg-white/5"
+              className="flex flex-col gap-1 py-3 text-sm hover:bg-white/5 sm:flex-row sm:items-center sm:justify-between"
             >
               <div>
                 <p className="font-medium text-white">{appt.client.name}</p>
