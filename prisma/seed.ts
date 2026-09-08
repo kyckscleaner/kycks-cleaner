@@ -32,7 +32,7 @@ async function main() {
       name: "Intérieur",
       description: "Sièges compris, sauf tâche importante.",
       priceCents: 2000,
-      durationMinutes: 45,
+      durationMinutes: 60,
       order: 1,
     },
     {
@@ -40,7 +40,7 @@ async function main() {
       name: "Extérieur",
       description: "Carrosserie, jantes, vitres extérieures, séchage.",
       priceCents: 3000,
-      durationMinutes: 45,
+      durationMinutes: 60,
       order: 2,
     },
     {
@@ -48,7 +48,7 @@ async function main() {
       name: "Complet",
       description: "Intérieur + extérieur. La formule la plus demandée.",
       priceCents: 4500,
-      durationMinutes: 75,
+      durationMinutes: 105,
       order: 3,
     },
   ];
