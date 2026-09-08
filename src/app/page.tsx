@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SocialLinks } from "@/components/SocialLinks";
@@ -17,15 +16,15 @@ export default async function HomePage() {
       <SiteHeader />
 
       <section className="relative">
-        {/* bannière photo — la voiture doit rester bien visible */}
-        <div className="relative h-[42vh] min-h-[320px] w-full overflow-hidden sm:h-[58vh] sm:min-h-[460px]">
-          <Image
-            src="/hero-carwash.jpg"
-            alt="Voiture recouverte de mousse pendant un nettoyage Kycks Cleaner"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[center_55%]"
+        {/* bannière vidéo — un vrai nettoyage Kycks Cleaner en action */}
+        <div className="relative h-[42vh] min-h-[320px] w-full overflow-hidden bg-black sm:h-[58vh] sm:min-h-[460px]">
+          <video
+            src="/hero-detailing.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover"
           />
           <div
             className="pointer-events-none absolute inset-0"
