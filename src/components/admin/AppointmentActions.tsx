@@ -35,6 +35,21 @@ export function AppointmentActions({
   const [recording, setRecording] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  async function deleteAppointment() {
+    setDeleting(true);
+    const res = await fetch(`/api/admin/appointments/${appointmentId}`, { method: "DELETE" });
+    if (!res.ok) {
+      setDeleting(false);
+      setError("Erreur lors de la suppression");
+      return;
+    }
+    router.push("/admin/rdv");
+    router.refresh();
+  }
+
   async function updateStatus(newStatus: string) {
     setUpdatingStatus(true);
     setStatus(newStatus);
@@ -124,6 +139,41 @@ export function AppointmentActions({
           {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
         </form>
       )}
+
+      <div className="border-t border-white/10 pt-6">
+        {!confirmingDelete ? (
+          <button
+            onClick={() => setConfirmingDelete(true)}
+            className="text-sm font-medium text-red-400 hover:text-red-300"
+          >
+            Supprimer ce rendez-vous
+          </button>
+        ) : (
+          <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-4">
+            <p className="text-sm text-white/80">
+              Supprimer définitivement ce rendez-vous et ses paiements associés ? Cette action est
+              irréversible.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                onClick={deleteAppointment}
+                disabled={deleting}
+                className="rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+              >
+                {deleting ? "Suppression..." : "Oui, supprimer"}
+              </button>
+              <button
+                onClick={() => setConfirmingDelete(false)}
+                disabled={deleting}
+                className="rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-white/70 hover:bg-white/5"
+              >
+                Annuler
+              </button>
+            </div>
+          </div>
+        )}
+        {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
+      </div>
     </div>
   );
 }

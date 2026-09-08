@@ -120,7 +120,7 @@ enum PaymentStatus {
 
 model Payment {
   id                    String        @id @default(cuid())
-  appointment           Appointment   @relation(fields: [appointmentId], references: [id])
+  appointment           Appointment   @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
   appointmentId         String
   amountCents           Int
   method                PaymentMethod
