@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SocialLinks } from "@/components/SocialLinks";
@@ -15,46 +16,69 @@ export default async function HomePage() {
     <div className="flex min-h-screen flex-col bg-black">
       <SiteHeader />
 
-      <section className="relative overflow-hidden bg-black px-4 py-24 text-white sm:px-6">
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(60% 50% at 50% 0%, rgba(124,58,237,0.35) 0%, rgba(0,0,0,0) 70%)",
-          }}
-        />
-        <div className="relative mx-auto max-w-4xl text-center">
-          <p className="mb-4 inline-block rounded-full border border-[#a855f7]/40 bg-[#7c3aed]/10 px-4 py-1 text-sm font-medium text-[#c084fc]">
-            Nettoyage automobile à domicile — Granville et environs
-          </p>
-          <h1 className="font-[family-name:var(--font-display)] text-5xl uppercase leading-[0.95] tracking-wide sm:text-7xl">
-            Une voiture propre,
-            <br />
-            <span className="bg-gradient-to-r from-[#a855f7] to-[#e9d5ff] bg-clip-text text-transparent">
-              c&apos;est un bon moral
-            </span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
-            Kycks Cleaner intervient directement à votre domicile pour un nettoyage intérieur et
-            extérieur. Réservez en ligne, réglez sur place.
-          </p>
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/reserver"
-              className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-7 py-3 font-semibold text-white shadow-[0_0_30px_-6px_#a855f7] transition hover:brightness-110"
-            >
-              Prendre rendez-vous
-            </Link>
-            <Link
-              href="/services"
-              className="rounded-full border border-white/20 px-7 py-3 font-semibold text-white transition hover:bg-white/10"
-            >
-              Voir les formules
-            </Link>
-          </div>
-          <div className="mt-8 flex flex-col items-center gap-2">
-            <p className="text-sm text-white/50">Suivez-nous</p>
-            <SocialLinks />
+      <section className="relative">
+        {/* bannière photo — la voiture doit rester bien visible */}
+        <div className="relative h-[42vh] min-h-[320px] w-full overflow-hidden sm:h-[58vh] sm:min-h-[460px]">
+          <Image
+            src="/hero-carwash.jpg"
+            alt="Voiture recouverte de mousse pendant un nettoyage Kycks Cleaner"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[center_55%]"
+          />
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 70%, #000000 100%)",
+            }}
+          />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/70 to-transparent" />
+        </div>
+
+        {/* contenu, sur fond noir uni juste sous la photo */}
+        <div className="relative bg-black px-4 pb-20 pt-10 text-center text-white sm:px-6 sm:pb-24">
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(60% 60% at 50% 0%, rgba(124,58,237,0.3) 0%, rgba(0,0,0,0) 70%)",
+            }}
+          />
+          <div className="relative mx-auto max-w-4xl">
+            <p className="mb-4 inline-block rounded-full border border-[#a855f7]/40 bg-[#7c3aed]/10 px-4 py-1 text-sm font-medium text-[#c084fc]">
+              Nettoyage automobile à domicile — Granville et environs
+            </p>
+            <h1 className="font-[family-name:var(--font-display)] text-4xl uppercase leading-[0.95] tracking-wide sm:text-6xl">
+              Une voiture propre,
+              <br />
+              <span className="bg-gradient-to-r from-[#a855f7] to-[#e9d5ff] bg-clip-text text-transparent">
+                c&apos;est un bon moral
+              </span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-white/70 sm:text-lg">
+              Kycks Cleaner intervient directement à votre domicile pour un nettoyage intérieur et
+              extérieur. Réservez en ligne, réglez sur place.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <Link
+                href="/reserver"
+                className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-7 py-3 font-semibold text-white shadow-[0_0_30px_-6px_#a855f7] transition hover:brightness-110"
+              >
+                Prendre rendez-vous
+              </Link>
+              <Link
+                href="/services"
+                className="rounded-full border border-white/20 px-7 py-3 font-semibold text-white transition hover:bg-white/10"
+              >
+                Voir les formules
+              </Link>
+            </div>
+            <div className="mt-8 flex flex-col items-center gap-2">
+              <p className="text-sm text-white/50">Suivez-nous</p>
+              <SocialLinks />
+            </div>
           </div>
         </div>
       </section>
