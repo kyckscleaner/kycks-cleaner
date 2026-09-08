@@ -30,11 +30,11 @@ const FAQ = [
   },
   {
     q: "Intervenez-vous uniquement à domicile ?",
-    a: "Oui, exclusivement chez vous (ou sur votre lieu de travail), à Granville et dans un rayon d'environ 10 km autour.",
+    a: "Oui, exclusivement chez vous, à Granville et dans un rayon d'environ 10 km autour.",
   },
   {
     q: "Combien de temps dure une prestation ?",
-    a: "Entre 45 min pour un intérieur ou extérieur seul, et environ 1h15 pour la formule complète, selon l'état du véhicule.",
+    a: "Entre 1h pour un intérieur ou extérieur seul, et environ 1h45 pour la formule complète, selon l'état du véhicule.",
   },
   {
     q: "Puis-je annuler ou déplacer mon rendez-vous ?",
