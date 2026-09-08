@@ -17,7 +17,7 @@ export default async function HomePage() {
 
       <section className="relative">
         {/* bannière vidéo — un vrai nettoyage Kycks Cleaner en action */}
-        <div className="relative h-[42vh] min-h-[320px] w-full overflow-hidden bg-black sm:h-[58vh] sm:min-h-[460px]">
+        <div className="relative h-[21vh] min-h-[180px] w-full overflow-hidden bg-black sm:h-[29vh] sm:min-h-[230px]">
           <video
             src="/hero-detailing.mp4"
             autoPlay
