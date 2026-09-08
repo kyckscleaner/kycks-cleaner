@@ -1,9 +1,46 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SocialLinks } from "@/components/SocialLinks";
 import { prisma } from "@/lib/prisma";
 import { centsToEuros } from "@/lib/money";
+
+const TRUST_POINTS = [
+  { label: "Chez vous", detail: "à domicile" },
+  { label: "Sans institut", detail: "ni file d'attente" },
+  { label: "Réglez", detail: "sur place" },
+  { label: "Granville", detail: "et environs (10 km)" },
+];
+
+const GALLERY = [
+  { src: "/gallery/work-1.jpg", alt: "Nettoyage minutieux de la console centrale" },
+  { src: "/gallery/work-7.jpg", alt: "Dépoussiérage des commandes au chiffon microfibre" },
+  { src: "/gallery/work-10.jpg", alt: "Finitions détaillées sur le tableau de bord" },
+];
+
+const FAQ = [
+  {
+    q: "De quoi avez-vous besoin sur place ?",
+    a: "Juste un point d'eau et une prise électrique accessibles près du véhicule. Le reste (produits, matériel, aspirateur) est fourni.",
+  },
+  {
+    q: "Comment se passe le paiement ?",
+    a: "Aucun paiement en ligne : vous réglez directement le jour du rendez-vous, une fois la prestation terminée et validée.",
+  },
+  {
+    q: "Intervenez-vous uniquement à domicile ?",
+    a: "Oui, exclusivement chez vous (ou sur votre lieu de travail), à Granville et dans un rayon d'environ 10 km autour.",
+  },
+  {
+    q: "Combien de temps dure une prestation ?",
+    a: "Entre 45 min pour un intérieur ou extérieur seul, et environ 1h15 pour la formule complète, selon l'état du véhicule.",
+  },
+  {
+    q: "Puis-je annuler ou déplacer mon rendez-vous ?",
+    a: "Oui, contactez-nous directement par téléphone ou via Instagram/TikTok dès que possible pour trouver un nouveau créneau.",
+  },
+];
 
 export default async function HomePage() {
   const services = await prisma.service.findMany({
@@ -36,8 +73,8 @@ export default async function HomePage() {
           <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/70 to-transparent" />
         </div>
 
-        {/* contenu, sur fond noir uni juste sous la photo */}
-        <div className="relative bg-black px-4 pb-20 pt-10 text-center text-white sm:px-6 sm:pb-24">
+        {/* contenu, sur fond noir uni juste sous la vidéo */}
+        <div className="relative bg-black px-4 pb-14 pt-10 text-center text-white sm:px-6 sm:pb-16">
           <div
             className="pointer-events-none absolute inset-0"
             style={{
@@ -82,6 +119,20 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* bandeau de confiance */}
+      <section className="border-y border-white/10 bg-[#0f0d13] px-4 py-6 sm:px-6">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 sm:grid-cols-4">
+          {TRUST_POINTS.map((point) => (
+            <div key={point.label} className="text-center">
+              <p className="font-[family-name:var(--font-display)] text-sm uppercase tracking-wide text-white sm:text-base">
+                {point.label}
+              </p>
+              <p className="mt-1 text-xs text-white/50 sm:text-sm">{point.detail}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section className="bg-black px-4 py-16 sm:px-6">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-center font-[family-name:var(--font-display)] text-3xl uppercase tracking-wide text-white sm:text-4xl">
@@ -91,23 +142,35 @@ export default async function HomePage() {
             Un vrai gros nettoyage, pas un simple coup d&apos;éponge.
           </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-3">
-            {services.map((service) => (
-              <div
-                key={service.id}
-                className="flex flex-col rounded-2xl border border-white/10 bg-[#16141c] p-6 shadow-lg transition hover:border-[#a855f7]/50"
-              >
-                <h3 className="font-[family-name:var(--font-display)] text-lg uppercase tracking-wide text-white">
-                  {service.name}
-                </h3>
-                <p className="mt-2 flex-1 text-sm text-white/60">{service.description}</p>
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="text-2xl font-extrabold text-[#a855f7]">
-                    {centsToEuros(service.priceCents)}
-                  </span>
-                  <span className="text-xs text-white/30">~{service.durationMinutes} min</span>
+            {services.map((service) => {
+              const isFeatured = service.code === "complet";
+              return (
+                <div
+                  key={service.id}
+                  className={`relative flex flex-col rounded-2xl border p-6 shadow-lg transition ${
+                    isFeatured
+                      ? "border-[#a855f7]/60 bg-gradient-to-b from-[#2a1a4a] to-[#16141c] sm:-translate-y-2"
+                      : "border-white/10 bg-[#16141c] hover:border-[#a855f7]/50"
+                  }`}
+                >
+                  {isFeatured && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow-[0_0_20px_-4px_#a855f7]">
+                      La plus demandée
+                    </span>
+                  )}
+                  <h3 className="font-[family-name:var(--font-display)] text-lg uppercase tracking-wide text-white">
+                    {service.name}
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm text-white/60">{service.description}</p>
+                  <div className="mt-4 flex items-center justify-between">
+                    <span className="text-2xl font-extrabold text-[#a855f7]">
+                      {centsToEuros(service.priceCents)}
+                    </span>
+                    <span className="text-xs text-white/30">~{service.durationMinutes} min</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <div className="mt-10 text-center">
             <Link
@@ -120,7 +183,41 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* galerie — vraies photos issues des interventions */}
       <section className="border-t border-white/10 bg-[#0f0d13] px-4 py-16 sm:px-6">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-center font-[family-name:var(--font-display)] text-3xl uppercase tracking-wide text-white sm:text-4xl">
+            En action
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-center text-white/60">
+            Des vraies photos issues de nos interventions, sans mise en scène.
+          </p>
+          <div className="mt-10 grid gap-4 sm:grid-cols-3">
+            {GALLERY.map((image) => (
+              <div
+                key={image.src}
+                className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10"
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  sizes="(min-width: 640px) 33vw, 100vw"
+                  className="object-cover transition duration-300 hover:scale-105"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <p className="text-sm text-white/50">Plus de vidéos sur nos réseaux</p>
+            <div className="mt-3 flex justify-center">
+              <SocialLinks />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-white/10 bg-black px-4 py-16 sm:px-6">
         <h2 className="text-center font-[family-name:var(--font-display)] text-3xl uppercase tracking-wide text-white sm:text-4xl">
           Comment ça marche
         </h2>
@@ -152,6 +249,29 @@ export default async function HomePage() {
               <p className="mt-2 text-sm text-white/60">{item.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="border-t border-white/10 bg-[#0f0d13] px-4 py-16 sm:px-6">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-center font-[family-name:var(--font-display)] text-3xl uppercase tracking-wide text-white sm:text-4xl">
+            Questions fréquentes
+          </h2>
+          <div className="mt-10 space-y-3">
+            {FAQ.map((item) => (
+              <details
+                key={item.q}
+                className="group rounded-xl border border-white/10 bg-[#16141c] px-5 py-4 open:border-[#a855f7]/40"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-white marker:content-none">
+                  {item.q}
+                  <span className="shrink-0 text-xl text-[#a855f7] transition group-open:rotate-45">+</span>
+                </summary>
+                <p className="mt-3 text-sm text-white/60">{item.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 

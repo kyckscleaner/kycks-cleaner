@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Anton, Bangers, Pacifico } from "next/font/google";
 import "./globals.css";
 import { PwaRegister } from "@/components/PwaRegister";
+import { StickyMobileCta } from "@/components/StickyMobileCta";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -75,9 +76,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="fr"
       className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} ${bangers.variable} ${pacifico.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col pb-16 sm:pb-0">
         <PwaRegister />
         {children}
+        <StickyMobileCta />
       </body>
     </html>
   );

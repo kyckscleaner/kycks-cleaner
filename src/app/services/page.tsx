@@ -24,31 +24,45 @@ export default async function ServicesPage() {
         </p>
 
         <div className="mt-10 space-y-6">
-          {services.map((service) => (
-            <div
-              key={service.id}
-              className="flex flex-col justify-between gap-4 rounded-2xl border border-white/10 bg-[#16141c] p-6 sm:flex-row sm:items-center"
-            >
-              <div>
-                <h2 className="font-[family-name:var(--font-display)] text-xl uppercase tracking-wide text-white">
-                  {service.name}
-                </h2>
-                <p className="mt-1 max-w-xl text-sm text-white/60">{service.description}</p>
-                <p className="mt-1 text-xs text-white/30">Durée estimée : {service.durationMinutes} min</p>
+          {services.map((service) => {
+            const isFeatured = service.code === "complet";
+            return (
+              <div
+                key={service.id}
+                className={`relative flex flex-col justify-between gap-4 rounded-2xl border p-6 sm:flex-row sm:items-center ${
+                  isFeatured
+                    ? "border-[#a855f7]/60 bg-gradient-to-br from-[#2a1a4a] to-[#16141c]"
+                    : "border-white/10 bg-[#16141c]"
+                }`}
+              >
+                <div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <h2 className="font-[family-name:var(--font-display)] text-xl uppercase tracking-wide text-white">
+                      {service.name}
+                    </h2>
+                    {isFeatured && (
+                      <span className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                        La plus demandée
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-1 max-w-xl text-sm text-white/60">{service.description}</p>
+                  <p className="mt-1 text-xs text-white/30">Durée estimée : {service.durationMinutes} min</p>
+                </div>
+                <div className="flex shrink-0 flex-col items-start gap-2 sm:items-end">
+                  <span className="text-2xl font-extrabold text-[#a855f7]">
+                    {centsToEuros(service.priceCents)}
+                  </span>
+                  <Link
+                    href={`/reserver?service=${service.code}`}
+                    className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110"
+                  >
+                    Réserver cette formule
+                  </Link>
+                </div>
               </div>
-              <div className="flex shrink-0 flex-col items-start gap-2 sm:items-end">
-                <span className="text-2xl font-extrabold text-[#a855f7]">
-                  {centsToEuros(service.priceCents)}
-                </span>
-                <Link
-                  href={`/reserver?service=${service.code}`}
-                  className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110"
-                >
-                  Réserver cette formule
-                </Link>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {options.length > 0 && (
