@@ -86,7 +86,7 @@ export default async function HomePage() {
             <p className="mb-4 inline-block rounded-full border border-[#a855f7]/40 bg-[#7c3aed]/10 px-4 py-1 text-sm font-medium text-[#c084fc]">
               Nettoyage automobile à domicile — Granville et environs
             </p>
-            <h1 className="font-[family-name:var(--font-display)] text-4xl uppercase leading-[0.95] tracking-wide sm:text-6xl">
+            <h1 className="font-[family-name:var(--font-display)] text-4xl uppercase leading-[1.15] tracking-wide sm:text-6xl">
               Votre voiture,
               <br />
               <span className="bg-gradient-to-r from-[#a855f7] to-[#e9d5ff] bg-clip-text text-transparent">
