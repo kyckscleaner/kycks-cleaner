@@ -93,7 +93,7 @@ export default async function HomePage() {
                 son éclat d&apos;origine
               </span>
             </h1>
-            <p className="mt-3 text-lg font-medium uppercase tracking-wide text-[#c084fc] sm:text-xl">
+            <p className="mt-3 bg-gradient-to-r from-[#a855f7] to-[#e9d5ff] bg-clip-text font-[family-name:var(--font-display)] text-lg uppercase tracking-wide text-transparent sm:text-xl">
               Votre voiture, notre passion.
             </p>
             <p className="mx-auto mt-5 max-w-2xl text-white/70 sm:text-lg">
