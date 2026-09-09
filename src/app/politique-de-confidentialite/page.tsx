@@ -79,8 +79,8 @@ export default function PolitiqueConfidentialitePage() {
           <p>
             Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès, de rectification et
             de suppression de vos données. Pour l&apos;exercer, contactez-nous à{" "}
-            <a href="mailto:kylianhinarejos08@gmail.com" className="text-[#a855f7] hover:underline">
-              kylianhinarejos08@gmail.com
+            <a href="mailto:kyckscleaner@gmail.com" className="text-[#a855f7] hover:underline">
+              kyckscleaner@gmail.com
             </a>
             .
           </p>
