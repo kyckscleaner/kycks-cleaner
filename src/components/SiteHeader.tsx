@@ -14,7 +14,7 @@ export async function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-white/10 bg-black/80 backdrop-blur">
       <div className="relative mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <Link href="/" className="flex shrink-0 items-center">
-          <Logo height={36} />
+          <Logo height={44} />
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-medium text-white/80 sm:flex">
           <Link href="/services" className="hover:text-white">
