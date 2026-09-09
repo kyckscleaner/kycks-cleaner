@@ -43,10 +43,18 @@ const FAQ = [
 ];
 
 export default async function HomePage() {
-  const services = await prisma.service.findMany({
-    where: { active: true },
-    orderBy: { order: "asc" },
-  });
+  const [services, reviews] = await Promise.all([
+    prisma.service.findMany({
+      where: { active: true },
+      orderBy: { order: "asc" },
+    }),
+    prisma.review.findMany({
+      where: { published: true },
+      orderBy: { createdAt: "desc" },
+      include: { client: true },
+      take: 6,
+    }),
+  ]);
 
   return (
     <div className="flex min-h-screen flex-col bg-black">
@@ -277,6 +285,30 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {reviews.length > 0 && (
+        <section className="border-t border-white/10 bg-[#0f0d13] px-4 py-16 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <h2 className="text-center font-[family-name:var(--font-display)] text-3xl uppercase tracking-wide text-white sm:text-4xl">
+              Avis clients
+            </h2>
+            <div className="mt-10 grid gap-4 sm:grid-cols-3">
+              {reviews.map((review) => (
+                <div key={review.id} className="rounded-2xl border border-white/10 bg-[#16141c] p-6">
+                  <p className="text-[#a855f7]">
+                    {"★".repeat(review.rating)}
+                    <span className="text-white/20">{"★".repeat(5 - review.rating)}</span>
+                  </p>
+                  <p className="mt-3 text-sm text-white/70">{review.comment}</p>
+                  <p className="mt-3 text-sm font-medium text-white/50">
+                    {review.client.name.split(" ")[0]}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="bg-black px-4 py-16 sm:px-6">
         <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 rounded-3xl border border-[#a855f7]/30 bg-gradient-to-br from-[#7c3aed]/15 to-transparent p-10 text-center">

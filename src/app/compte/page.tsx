@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { centsToEuros } from "@/lib/money";
 import { ClientLogoutButton } from "@/components/ClientLogoutButton";
 import { CopyReferralLink } from "@/components/CopyReferralLink";
+import { ReviewForm } from "@/components/ReviewForm";
 import { REFERRAL_DISCOUNT_PERCENT } from "@/lib/referral";
 
 const STATUS_LABELS: Record<string, string> = {
@@ -22,7 +23,7 @@ export default async function ComptePage() {
   const appointments = await prisma.appointment.findMany({
     where: { clientId: client.id },
     orderBy: { date: "desc" },
-    include: { services: { include: { service: true } } },
+    include: { services: { include: { service: true } }, review: true },
   });
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
@@ -76,23 +77,39 @@ export default async function ComptePage() {
               <p className="text-sm text-white/40">Aucun rendez-vous pour le moment.</p>
             )}
             {appointments.map((appt) => (
-              <div
-                key={appt.id}
-                className="flex flex-col justify-between gap-2 rounded-xl border border-white/10 bg-[#16141c] p-4 sm:flex-row sm:items-center"
-              >
-                <div>
-                  <p className="font-medium text-white">
-                    {appt.date.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}{" "}
-                    à {appt.date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
-                  </p>
-                  <p className="text-sm text-white/50">
-                    {appt.services.map((s) => s.service.name).join(", ")}
-                  </p>
+              <div key={appt.id} className="rounded-xl border border-white/10 bg-[#16141c] p-4">
+                <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+                  <div>
+                    <p className="font-medium text-white">
+                      {appt.date.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}{" "}
+                      à {appt.date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+                    </p>
+                    <p className="text-sm text-white/50">
+                      {appt.services.map((s) => s.service.name).join(", ")}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-white/60">{STATUS_LABELS[appt.status]}</span>
+                    <span className="font-bold text-[#a855f7]">{centsToEuros(appt.totalCents)}</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-sm text-white/60">{STATUS_LABELS[appt.status]}</span>
-                  <span className="font-bold text-[#a855f7]">{centsToEuros(appt.totalCents)}</span>
-                </div>
+                {appt.status === "DONE" && (
+                  <div className="mt-3 border-t border-white/10 pt-3">
+                    {appt.review ? (
+                      <p className="text-sm text-white/50">
+                        Votre avis :{" "}
+                        <span className="text-[#a855f7]">{"★".repeat(appt.review.rating)}</span>{" "}
+                        {appt.review.published ? (
+                          <span className="text-green-400">(publié)</span>
+                        ) : (
+                          <span className="text-white/30">(en attente de validation)</span>
+                        )}
+                      </p>
+                    ) : (
+                      <ReviewForm appointmentId={appt.id} />
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </div>

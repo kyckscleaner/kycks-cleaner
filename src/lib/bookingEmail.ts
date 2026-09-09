@@ -51,3 +51,39 @@ export async function sendBookingConfirmationEmail(input: BookingEmailInput) {
     // L'échec d'envoi de l'email de confirmation ne doit jamais faire échouer la réservation.
   }
 }
+
+type RescheduleEmailInput = {
+  clientEmail: string;
+  clientName: string;
+  previousDate: Date;
+  newDate: Date;
+};
+
+export async function sendRescheduleEmail(input: RescheduleEmailInput) {
+  const format = (d: Date) =>
+    `${d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })} à ${d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`;
+
+  const lines = [
+    `Bonjour ${input.clientName.split(" ")[0]},`,
+    "",
+    `Votre rendez-vous Kycks Cleaner a été déplacé :`,
+    "",
+    `Ancien créneau : ${format(input.previousDate)}`,
+    `Nouveau créneau : ${format(input.newDate)}`,
+    "",
+    "Si ce nouveau créneau ne vous convient pas, contactez-nous directement.",
+    "",
+    "Kycks Cleaner",
+  ];
+
+  try {
+    await resend.emails.send({
+      from: "Kycks Cleaner <onboarding@resend.dev>",
+      to: input.clientEmail,
+      subject: `Rendez-vous déplacé - nouveau créneau : ${format(input.newDate)}`,
+      text: lines.join("\n"),
+    });
+  } catch {
+    // L'échec d'envoi ne doit jamais faire échouer la modification du rendez-vous.
+  }
+}

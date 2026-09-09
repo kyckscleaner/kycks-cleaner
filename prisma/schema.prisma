@@ -55,6 +55,7 @@ model Client {
   referrals                 Client[] @relation("Referrals")
   referralDiscountAvailable Boolean  @default(false) // réduction de parrainage à utiliser sur le prochain RDV
   referralBlockedReason     String? // renseigné si le parrainage a été refusé (fraude suspectée)
+  reviews                   Review[]
 }
 
 enum AppointmentStatus {
@@ -83,6 +84,8 @@ model Appointment {
   createdAt     DateTime              @default(now())
   updatedAt     DateTime              @updatedAt
   payments      Payment[]
+  review        Review?
+  reminderSentAt DateTime? // SMS de rappel envoyé la veille (évite les doublons)
 }
 
 model AppointmentService {
@@ -129,6 +132,18 @@ model Payment {
   stripePaymentIntentId String?
   paidAt                DateTime?
   createdAt             DateTime      @default(now())
+}
+
+model Review {
+  id            String       @id @default(cuid())
+  client        Client       @relation(fields: [clientId], references: [id])
+  clientId      String
+  appointment   Appointment  @relation(fields: [appointmentId], references: [id])
+  appointmentId String       @unique // un avis par rendez-vous, uniquement pour les RDV terminés
+  rating        Int // 1 à 5
+  comment       String
+  published     Boolean      @default(false) // visible publiquement seulement une fois validé par l'admin
+  createdAt     DateTime     @default(now())
 }
 
 // Configurable business settings for the URSSAF / tax helper module

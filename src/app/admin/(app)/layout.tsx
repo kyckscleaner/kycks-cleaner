@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { href: "/admin/calendrier", label: "Calendrier" },
   { href: "/admin/rdv", label: "Rendez-vous" },
   { href: "/admin/clients", label: "Clients" },
+  { href: "/admin/avis", label: "Avis clients" },
   { href: "/admin/finances", label: "URSSAF / Impôts" },
   { href: "/admin/qrcode", label: "QR code" },
   { href: "/admin/parametres", label: "Paramètres" },

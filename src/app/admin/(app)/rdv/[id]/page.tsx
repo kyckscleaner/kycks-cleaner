@@ -117,6 +117,7 @@ export default async function AdminRdvDetailPage({ params }: { params: Promise<{
         <AppointmentActions
           appointmentId={appointment.id}
           currentStatus={appointment.status}
+          currentDate={appointment.date.toISOString()}
           remainingCents={remainingCents}
         />
       </div>

@@ -17,18 +17,29 @@ const PAYMENT_METHODS = [
   { value: "CARTE_SUR_PLACE", label: "Carte sur place (TPE/appli tierce)" },
 ];
 
+function toDatetimeLocalValue(date: Date) {
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
 export function AppointmentActions({
   appointmentId,
   currentStatus,
+  currentDate,
   remainingCents,
 }: {
   appointmentId: string;
   currentStatus: string;
+  currentDate: string;
   remainingCents: number;
 }) {
   const router = useRouter();
   const [status, setStatus] = useState(currentStatus);
   const [updatingStatus, setUpdatingStatus] = useState(false);
+
+  const [dateValue, setDateValue] = useState(toDatetimeLocalValue(new Date(currentDate)));
+  const [savingDate, setSavingDate] = useState(false);
+  const [dateSaved, setDateSaved] = useState(false);
 
   const [amount, setAmount] = useState(remainingCents > 0 ? (remainingCents / 100).toString() : "");
   const [method, setMethod] = useState("ESPECES");
@@ -59,6 +70,24 @@ export function AppointmentActions({
       body: JSON.stringify({ status: newStatus }),
     });
     setUpdatingStatus(false);
+    router.refresh();
+  }
+
+  async function rescheduleAppointment(e: React.FormEvent) {
+    e.preventDefault();
+    setSavingDate(true);
+    setDateSaved(false);
+    const res = await fetch(`/api/admin/appointments/${appointmentId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ date: new Date(dateValue).toISOString() }),
+    });
+    setSavingDate(false);
+    if (!res.ok) {
+      setError("Erreur lors de la modification de la date");
+      return;
+    }
+    setDateSaved(true);
     router.refresh();
   }
 
@@ -101,6 +130,31 @@ export function AppointmentActions({
           ))}
         </div>
       </div>
+
+      <form onSubmit={rescheduleAppointment} className="rounded-xl border border-white/10 bg-white/5 p-4">
+        <p className="mb-3 text-sm font-medium text-white/70">
+          Modifier la date et l&apos;heure (le client est prévenu par email)
+        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <input
+            type="datetime-local"
+            value={dateValue}
+            onChange={(e) => {
+              setDateValue(e.target.value);
+              setDateSaved(false);
+            }}
+            className="rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white [color-scheme:dark]"
+          />
+          <button
+            type="submit"
+            disabled={savingDate}
+            className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+          >
+            {savingDate ? "Enregistrement..." : "Déplacer le rendez-vous"}
+          </button>
+          {dateSaved && <span className="text-sm text-green-400">Modifié ✓</span>}
+        </div>
+      </form>
 
       {remainingCents > 0 && (
         <form onSubmit={recordPayment} className="rounded-xl border border-white/10 bg-white/5 p-4">
