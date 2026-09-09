@@ -207,7 +207,7 @@ export default async function HomePage() {
             {GALLERY.map((item, i) => (
               <div
                 key={i}
-                className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10"
+                className="relative aspect-[9/16] overflow-hidden rounded-2xl border border-white/10"
               >
                 {item.type === "video" ? (
                   <video
