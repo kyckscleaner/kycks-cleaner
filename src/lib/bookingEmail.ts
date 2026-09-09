@@ -87,3 +87,46 @@ export async function sendRescheduleEmail(input: RescheduleEmailInput) {
     // L'échec d'envoi ne doit jamais faire échouer la modification du rendez-vous.
   }
 }
+
+type ReminderEmailInput = {
+  clientEmail: string;
+  clientName: string;
+  date: Date;
+  address: string;
+  city: string;
+  postalCode: string;
+  serviceNames: string[];
+};
+
+export async function sendReminderEmail(input: ReminderEmailInput) {
+  const dateLabel = input.date.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+  const timeLabel = input.date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+
+  const lines = [
+    `Bonjour ${input.clientName.split(" ")[0]},`,
+    "",
+    `Petit rappel : votre rendez-vous Kycks Cleaner est demain !`,
+    "",
+    `📅 ${dateLabel} à ${timeLabel}`,
+    `🧽 ${input.serviceNames.join(", ")}`,
+    `📍 ${input.address}, ${input.postalCode} ${input.city}`,
+    "",
+    "Pensez à prévoir un accès à un point d'eau et une prise électrique.",
+    "Paiement sur place le jour du rendez-vous.",
+    "",
+    "À demain !",
+    "Kycks Cleaner",
+  ];
+
+  try {
+    await resend.emails.send({
+      from: "Kycks Cleaner <onboarding@resend.dev>",
+      to: input.clientEmail,
+      subject: `Rappel : votre rendez-vous demain à ${timeLabel}`,
+      text: lines.join("\n"),
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
