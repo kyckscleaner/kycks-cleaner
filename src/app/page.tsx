@@ -190,7 +190,7 @@ export default async function HomePage() {
             En action
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-center text-white/60">
-            Des vraies photos issues de nos interventions, sans mise en scène.
+            Un aperçu de nos interventions récentes.
           </p>
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
             {GALLERY.map((image) => (
