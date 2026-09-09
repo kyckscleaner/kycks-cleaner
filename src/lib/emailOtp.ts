@@ -19,7 +19,7 @@ export async function sendLoginCode(email: string) {
   });
 
   await resend.emails.send({
-    from: "Kycks Cleaner <onboarding@resend.dev>",
+    from: "Kycks Cleaner <contact@kycks-cleaner.fr>",
     to: email,
     subject: `Code de connexion : ${code}`,
     text: `Votre code de connexion à l'espace pro Kycks Cleaner : ${code}\n\nCe code expire dans ${CODE_TTL_MINUTES} minutes. Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.`,

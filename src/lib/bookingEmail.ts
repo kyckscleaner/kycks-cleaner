@@ -42,7 +42,7 @@ export async function sendBookingConfirmationEmail(input: BookingEmailInput) {
 
   try {
     await resend.emails.send({
-      from: "Kycks Cleaner <onboarding@resend.dev>",
+      from: "Kycks Cleaner <contact@kycks-cleaner.fr>",
       to: input.clientEmail,
       subject: `Rendez-vous confirmé - ${dateLabel} à ${timeLabel}`,
       text: lines.join("\n"),
@@ -78,7 +78,7 @@ export async function sendRescheduleEmail(input: RescheduleEmailInput) {
 
   try {
     await resend.emails.send({
-      from: "Kycks Cleaner <onboarding@resend.dev>",
+      from: "Kycks Cleaner <contact@kycks-cleaner.fr>",
       to: input.clientEmail,
       subject: `Rendez-vous déplacé - nouveau créneau : ${format(input.newDate)}`,
       text: lines.join("\n"),
@@ -120,7 +120,7 @@ export async function sendReminderEmail(input: ReminderEmailInput) {
 
   try {
     await resend.emails.send({
-      from: "Kycks Cleaner <onboarding@resend.dev>",
+      from: "Kycks Cleaner <contact@kycks-cleaner.fr>",
       to: input.clientEmail,
       subject: `Rappel : votre rendez-vous demain à ${timeLabel}`,
       text: lines.join("\n"),
@@ -162,7 +162,7 @@ export async function sendAdminNewBookingEmail(input: AdminNewBookingInput) {
 
   try {
     await resend.emails.send({
-      from: "Kycks Cleaner <onboarding@resend.dev>",
+      from: "Kycks Cleaner <contact@kycks-cleaner.fr>",
       to: input.adminEmail,
       subject: `Nouvelle réservation - ${dateLabel} à ${timeLabel}`,
       text: lines.join("\n"),
@@ -196,7 +196,7 @@ export async function sendAdminDailySummaryEmail(adminEmail: string, appointment
 
   try {
     await resend.emails.send({
-      from: "Kycks Cleaner <onboarding@resend.dev>",
+      from: "Kycks Cleaner <contact@kycks-cleaner.fr>",
       to: adminEmail,
       subject: `${appointments.length} rendez-vous demain`,
       text: lines.join("\n"),
