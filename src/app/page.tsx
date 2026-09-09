@@ -87,10 +87,10 @@ export default async function HomePage() {
               Nettoyage automobile à domicile — Granville et environs
             </p>
             <h1 className="font-[family-name:var(--font-display)] text-4xl uppercase leading-[0.95] tracking-wide sm:text-6xl">
-              Une voiture propre,
+              Votre voiture,
               <br />
               <span className="bg-gradient-to-r from-[#a855f7] to-[#e9d5ff] bg-clip-text text-transparent">
-                c&apos;est un bon moral
+                notre passion
               </span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-white/70 sm:text-lg">

@@ -8,7 +8,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-white/60 sm:px-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <Logo height={32} />
-          <p>Une voiture propre, c&apos;est un bon moral !</p>
+          <p>Votre voiture, notre passion.</p>
           <SocialLinks />
         </div>
         <div className="mt-4 flex flex-col gap-2 border-t border-white/10 pt-4 text-xs text-white/30 sm:flex-row sm:items-center sm:justify-between">
