@@ -70,6 +70,7 @@ async function main() {
     { code: "nourrissage_cuir", name: "Nourrissage de cuir", priceCents: 1000, order: 5 },
     { code: "poils_animaux", name: "Poils d'animaux", priceCents: 1500, order: 6 },
     { code: "vehicule_tres_sale", name: "Véhicule très sale / odeurs", priceCents: 1000, order: 7 },
+    { code: "teinture_moquette_tapis", name: "Teinture moquette / tapis (ravive le noir d'origine)", priceCents: 1500, order: 8 },
   ];
 
   for (const option of options) {
