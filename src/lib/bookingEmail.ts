@@ -130,3 +130,78 @@ export async function sendReminderEmail(input: ReminderEmailInput) {
     return false;
   }
 }
+
+type AdminNewBookingInput = {
+  adminEmail: string;
+  clientName: string;
+  clientPhone: string;
+  clientEmail: string;
+  date: Date;
+  address: string;
+  city: string;
+  postalCode: string;
+  serviceNames: string[];
+  totalCents: number;
+};
+
+export async function sendAdminNewBookingEmail(input: AdminNewBookingInput) {
+  const dateLabel = input.date.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+  const timeLabel = input.date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+
+  const lines = [
+    `Nouvelle réservation reçue !`,
+    "",
+    `👤 ${input.clientName} — ${input.clientPhone} — ${input.clientEmail}`,
+    `📅 ${dateLabel} à ${timeLabel}`,
+    `🧽 ${input.serviceNames.join(", ")}`,
+    `📍 ${input.address}, ${input.postalCode} ${input.city}`,
+    `💰 ${centsToEuros(input.totalCents)} à régler sur place`,
+    "",
+    "Voir le détail dans l'espace pro.",
+  ];
+
+  try {
+    await resend.emails.send({
+      from: "Kycks Cleaner <onboarding@resend.dev>",
+      to: input.adminEmail,
+      subject: `Nouvelle réservation - ${dateLabel} à ${timeLabel}`,
+      text: lines.join("\n"),
+    });
+  } catch {
+    // L'échec d'envoi de la notification admin ne doit jamais faire échouer la réservation.
+  }
+}
+
+type AdminDailySummaryAppointment = {
+  clientName: string;
+  clientPhone: string;
+  date: Date;
+  address: string;
+  city: string;
+  serviceNames: string[];
+};
+
+export async function sendAdminDailySummaryEmail(adminEmail: string, appointments: AdminDailySummaryAppointment[]) {
+  if (appointments.length === 0) return;
+
+  const lines = [
+    `Vos rendez-vous de demain (${appointments.length}) :`,
+    "",
+    ...appointments.flatMap((appt) => [
+      `📅 ${appt.date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} — ${appt.clientName} (${appt.clientPhone})`,
+      `   ${appt.serviceNames.join(", ")} — ${appt.address}, ${appt.city}`,
+      "",
+    ]),
+  ];
+
+  try {
+    await resend.emails.send({
+      from: "Kycks Cleaner <onboarding@resend.dev>",
+      to: adminEmail,
+      subject: `${appointments.length} rendez-vous demain`,
+      text: lines.join("\n"),
+    });
+  } catch {
+    // L'échec d'envoi du récap admin ne doit jamais faire échouer la tâche planifiée.
+  }
+}

@@ -4,7 +4,7 @@ import { reservationSchema } from "@/lib/validation";
 import { getAvailableSlots } from "@/lib/availability";
 import { getClientIdFromSession } from "@/lib/clientAuth";
 import { REFERRAL_DISCOUNT_PERCENT } from "@/lib/referral";
-import { sendBookingConfirmationEmail } from "@/lib/bookingEmail";
+import { sendBookingConfirmationEmail, sendAdminNewBookingEmail } from "@/lib/bookingEmail";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -107,6 +107,22 @@ export async function POST(req: Request) {
     totalCents,
     discountCents,
   });
+
+  const admin = await prisma.adminUser.findFirst();
+  if (admin) {
+    await sendAdminNewBookingEmail({
+      adminEmail: admin.email,
+      clientName: client.name,
+      clientPhone: client.phone,
+      clientEmail: client.email,
+      date: appointmentDate,
+      address: data.address,
+      city: data.city,
+      postalCode: data.postalCode,
+      serviceNames: services.map((s) => s.name),
+      totalCents,
+    });
+  }
 
   return NextResponse.json({ appointmentId: appointment.id, totalCents });
 }
