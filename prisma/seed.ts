@@ -30,7 +30,7 @@ async function main() {
     {
       code: "interieur",
       name: "Intérieur",
-      description: "Sièges compris, sauf tâche importante.",
+      description: "Sièges, plastiques, tableau de bord, tapis et moquettes inclus, sauf tâche importante.",
       priceCents: 4000,
       durationMinutes: 60,
       order: 1,
@@ -46,7 +46,8 @@ async function main() {
     {
       code: "complet",
       name: "Complet",
-      description: "Intérieur + extérieur. La formule la plus demandée.",
+      description:
+        "Intérieur (plastiques, tableau de bord, tapis et moquettes inclus) + extérieur. La formule la plus demandée.",
       priceCents: 6500,
       durationMinutes: 105,
       order: 3,
@@ -63,8 +64,8 @@ async function main() {
 
   const options = [
     { code: "shampoing_sieges", name: "Shampoing sièges (tâches / salissures)", priceCents: 2000, order: 1 },
-    { code: "tapis_moquettes", name: "Nettoyage tapis / moquettes", priceCents: 1000, order: 2 },
-    { code: "plastiques_tableau_bord", name: "Plastiques & tableau de bord", priceCents: 500, order: 3 },
+    { code: "tapis_moquettes", name: "Nettoyage tapis / moquettes", priceCents: 1000, order: 2, active: false },
+    { code: "plastiques_tableau_bord", name: "Plastiques & tableau de bord", priceCents: 500, order: 3, active: false },
     { code: "jantes_tres_sales", name: "Jantes très sales", priceCents: 500, order: 4 },
     { code: "nourrissage_cuir", name: "Nourrissage de cuir", priceCents: 1000, order: 5 },
     { code: "poils_animaux", name: "Poils d'animaux", priceCents: 1500, order: 6 },
@@ -74,8 +75,8 @@ async function main() {
   for (const option of options) {
     await prisma.serviceOption.upsert({
       where: { code: option.code },
-      update: option,
-      create: option,
+      update: { ...option, active: option.active ?? true },
+      create: { ...option, active: option.active ?? true },
     });
   }
 
