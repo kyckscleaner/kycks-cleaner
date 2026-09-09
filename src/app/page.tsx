@@ -14,9 +14,9 @@ const TRUST_POINTS = [
 ];
 
 const GALLERY = [
-  { src: "/gallery/work-1.jpg", alt: "Nettoyage minutieux de la console centrale" },
-  { src: "/gallery/work-7.jpg", alt: "Dépoussiérage des commandes au chiffon microfibre" },
-  { src: "/gallery/work-10.jpg", alt: "Finitions détaillées sur le tableau de bord" },
+  { type: "video" as const, src: "/gallery-1.mp4", alt: "Nettoyage intérieur en cours" },
+  { type: "video" as const, src: "/gallery-1.mp4", alt: "Nettoyage intérieur en cours" },
+  { type: "video" as const, src: "/gallery-1.mp4", alt: "Nettoyage intérieur en cours" },
 ];
 
 const FAQ = [
@@ -204,18 +204,29 @@ export default async function HomePage() {
             Un aperçu de nos interventions récentes.
           </p>
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            {GALLERY.map((image) => (
+            {GALLERY.map((item, i) => (
               <div
-                key={image.src}
+                key={i}
                 className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10"
               >
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  sizes="(min-width: 640px) 33vw, 100vw"
-                  className="object-cover transition duration-300 hover:scale-105"
-                />
+                {item.type === "video" ? (
+                  <video
+                    src={item.src}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute inset-0 h-full w-full object-cover transition duration-300 hover:scale-105"
+                  />
+                ) : (
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    fill
+                    sizes="(min-width: 640px) 33vw, 100vw"
+                    className="object-cover transition duration-300 hover:scale-105"
+                  />
+                )}
               </div>
             ))}
           </div>
