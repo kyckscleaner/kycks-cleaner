@@ -14,7 +14,7 @@ const TRUST_POINTS = [
 ];
 
 const GALLERY = [
-  { type: "video" as const, src: "/gallery-1.mp4", alt: "Nettoyage intérieur en cours" },
+  { type: "video" as const, src: "/gallery-2.mp4", alt: "Nettoyage intérieur en cours" },
   { type: "video" as const, src: "/gallery-1.mp4", alt: "Nettoyage intérieur en cours" },
   { type: "video" as const, src: "/gallery-1.mp4", alt: "Nettoyage intérieur en cours" },
 ];
