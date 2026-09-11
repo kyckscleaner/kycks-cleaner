@@ -30,7 +30,8 @@ async function main() {
     {
       code: "interieur",
       name: "Intérieur",
-      description: "Sièges, plastiques, tableau de bord, tapis et moquettes inclus, sauf tâche importante.",
+      description:
+        "Aspiration complète, nettoyage de l'habitacle, sièges, tapis & moquettes, vitres intérieures, parfum d'intérieur.",
       priceCents: 4000,
       durationMinutes: 60,
       order: 1,
@@ -38,7 +39,7 @@ async function main() {
     {
       code: "exterieur",
       name: "Extérieur",
-      description: "Carrosserie, jantes, vitres extérieures, séchage.",
+      description: "Carrosserie, jantes, vitres extérieures, séchage du véhicule.",
       priceCents: 3000,
       durationMinutes: 60,
       order: 2,
@@ -47,7 +48,7 @@ async function main() {
       code: "complet",
       name: "Complet",
       description:
-        "Intérieur (plastiques, tableau de bord, tapis et moquettes inclus) + extérieur. La formule la plus demandée.",
+        "Comprend l'intégralité des prestations des formules Intérieur & Extérieur. La formule la plus demandée.",
       priceCents: 6500,
       durationMinutes: 105,
       order: 3,
@@ -71,6 +72,8 @@ async function main() {
     { code: "poils_animaux", name: "Poils d'animaux", priceCents: 1500, order: 6 },
     { code: "vehicule_tres_sale", name: "Véhicule très sale / odeurs", priceCents: 1000, order: 7 },
     { code: "teinture_moquette_tapis", name: "Teinture moquette / tapis (ravive le noir d'origine)", priceCents: 1500, order: 8 },
+    { code: "portes_coffre", name: "Nettoyage intérieur des portes & du coffre", priceCents: 1000, order: 9 },
+    { code: "desinfection_vapeur", name: "Désinfection de l'habitacle à la vapeur", priceCents: 2000, order: 10 },
   ];
 
   for (const option of options) {

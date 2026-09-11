@@ -6,21 +6,37 @@ import { centsToEuros } from "@/lib/money";
 
 const FORMULE_FEATURES: Record<string, { included: string[]; excluded: string[] }> = {
   interieur: {
-    included: ["Aspiration complète", "Sièges nettoyés", "Plastiques & tableau de bord", "Tapis & moquettes"],
+    included: [
+      "Aspiration complète de l'habitacle",
+      "Nettoyage de l'habitacle",
+      "Nettoyage des sièges",
+      "Nettoyage des tapis & moquettes",
+      "Nettoyage des vitres intérieures",
+      "Parfum d'intérieur",
+    ],
     excluded: ["Extérieur (carrosserie, jantes, vitres)"],
   },
   exterieur: {
-    included: ["Carrosserie", "Jantes", "Vitres extérieures", "Séchage"],
-    excluded: ["Intérieur (sièges, plastiques, tapis)"],
+    included: [
+      "Nettoyage complet de la carrosserie",
+      "Nettoyage des jantes",
+      "Nettoyage des vitres extérieures",
+      "Séchage du véhicule",
+    ],
+    excluded: ["Intérieur (habitacle, sièges, vitres)"],
   },
   complet: {
     included: [
-      "Aspiration complète",
-      "Sièges nettoyés",
-      "Plastiques & tableau de bord",
-      "Tapis & moquettes",
-      "Carrosserie, jantes, vitres extérieures",
-      "Séchage",
+      "Aspiration complète de l'habitacle",
+      "Nettoyage de l'habitacle",
+      "Nettoyage des sièges",
+      "Nettoyage des tapis & moquettes",
+      "Nettoyage des vitres intérieures",
+      "Parfum d'intérieur",
+      "Nettoyage complet de la carrosserie",
+      "Nettoyage des jantes",
+      "Nettoyage des vitres extérieures",
+      "Séchage du véhicule",
     ],
     excluded: [],
   },
