@@ -29,7 +29,7 @@ const FORMULE_FEATURES: Record<string, { included: string[]; excluded: string[] 
       "Nettoyage des vitres intérieures",
       "Parfum d'intérieur",
     ],
-    excluded: ["Extérieur (carrosserie, jantes, vitres)"],
+    excluded: [],
   },
   exterieur: {
     included: [
@@ -38,7 +38,7 @@ const FORMULE_FEATURES: Record<string, { included: string[]; excluded: string[] 
       "Nettoyage des vitres extérieures",
       "Séchage du véhicule",
     ],
-    excluded: ["Intérieur (habitacle, sièges, vitres)"],
+    excluded: [],
   },
   complet: {
     included: [
