@@ -23,6 +23,7 @@ type LoggedInClient = {
   email: string;
   phone: string;
   referralDiscountAvailable: boolean;
+  anniversaryDiscountAvailable: boolean;
 };
 
 const REFERRAL_DISCOUNT_PERCENT = 10;
@@ -67,7 +68,7 @@ export function ReservationForm({
   const [vehicleInfo, setVehicleInfo] = useState("");
   const [notes, setNotes] = useState("");
   const [useReferralDiscount, setUseReferralDiscount] = useState(
-    loggedInClient?.referralDiscountAvailable ?? false
+    (loggedInClient?.referralDiscountAvailable || loggedInClient?.anniversaryDiscountAvailable) ?? false
   );
 
   const [submitting, setSubmitting] = useState(false);
@@ -84,8 +85,10 @@ export function ReservationForm({
   const subtotalCents =
     selectedServices.reduce((sum, s) => sum + s.priceCents, 0) +
     selectedOptions.reduce((sum, o) => sum + o.priceCents, 0);
+  const hasAvailableDiscount =
+    loggedInClient?.referralDiscountAvailable || loggedInClient?.anniversaryDiscountAvailable;
   const discountCents =
-    loggedInClient?.referralDiscountAvailable && useReferralDiscount
+    hasAvailableDiscount && useReferralDiscount
       ? Math.round((subtotalCents * REFERRAL_DISCOUNT_PERCENT) / 100)
       : 0;
   const totalCents = subtotalCents - discountCents;
@@ -287,7 +290,7 @@ export function ReservationForm({
         </div>
       </section>
 
-      {loggedInClient?.referralDiscountAvailable && (
+      {hasAvailableDiscount && (
         <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-green-500/30 bg-green-500/10 p-4">
           <input
             type="checkbox"
@@ -296,7 +299,9 @@ export function ReservationForm({
             className="h-4 w-4"
           />
           <span className="text-sm text-green-400">
-            Utiliser ma réduction de parrainage (-{REFERRAL_DISCOUNT_PERCENT}%)
+            {loggedInClient?.referralDiscountAvailable
+              ? `Utiliser ma réduction de parrainage (-${REFERRAL_DISCOUNT_PERCENT}%)`
+              : `Utiliser ma réduction anniversaire (-${REFERRAL_DISCOUNT_PERCENT}%)`}
           </span>
         </label>
       )}

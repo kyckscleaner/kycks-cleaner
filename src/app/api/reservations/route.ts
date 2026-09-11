@@ -64,7 +64,12 @@ export async function POST(req: Request) {
         create: { name: data.clientName, email: data.clientEmail, phone: data.clientPhone },
       });
 
-  const applyDiscount = data.applyReferralDiscount && sessionClient?.referralDiscountAvailable === true;
+  // Un client peut avoir au plus une réduction active à la fois (parrainage prioritaire sur anniversaire).
+  const useReferralDiscount =
+    data.applyReferralDiscount && sessionClient?.referralDiscountAvailable === true;
+  const useAnniversaryDiscount =
+    !useReferralDiscount && data.applyReferralDiscount && sessionClient?.anniversaryDiscountAvailable === true;
+  const applyDiscount = useReferralDiscount || useAnniversaryDiscount;
   const discountCents = applyDiscount ? Math.round((subtotalCents * REFERRAL_DISCOUNT_PERCENT) / 100) : 0;
   const totalCents = subtotalCents - discountCents;
 
@@ -89,10 +94,15 @@ export async function POST(req: Request) {
     },
   });
 
-  if (applyDiscount) {
+  if (useReferralDiscount) {
     await prisma.client.update({
       where: { id: client.id },
       data: { referralDiscountAvailable: false },
+    });
+  } else if (useAnniversaryDiscount) {
+    await prisma.client.update({
+      where: { id: client.id },
+      data: { anniversaryDiscountAvailable: false },
     });
   }
 

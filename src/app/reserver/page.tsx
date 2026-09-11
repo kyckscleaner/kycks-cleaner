@@ -33,6 +33,7 @@ export default async function ReserverPage() {
         email: client.email,
         phone: client.phone,
         referralDiscountAvailable: client.referralDiscountAvailable,
+        anniversaryDiscountAvailable: client.anniversaryDiscountAvailable,
       }
     : null;
 

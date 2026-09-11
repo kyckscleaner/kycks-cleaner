@@ -66,6 +66,12 @@ export default async function ComptePage() {
               Le parrainage associé à votre inscription n&apos;a pas pu être validé.
             </p>
           )}
+          {client.anniversaryDiscountAvailable && (
+            <p className="mt-4 rounded-lg bg-green-500/10 px-3 py-2 text-sm text-green-400">
+              🎉 Bon anniversaire ! Vous avez une réduction de {REFERRAL_DISCOUNT_PERCENT}% disponible
+              pour vos 1 an — elle sera proposée automatiquement à votre prochaine réservation.
+            </p>
+          )}
         </section>
 
         <section className="mt-8">

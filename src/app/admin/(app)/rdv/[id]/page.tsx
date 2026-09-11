@@ -76,7 +76,7 @@ export default async function AdminRdvDetailPage({ params }: { params: Promise<{
         </ul>
         {appointment.discountCents > 0 && (
           <div className="mt-3 flex justify-between border-t border-white/10 pt-3 text-sm text-green-400">
-            <span>Réduction parrainage</span>
+            <span>Réduction (parrainage / anniversaire)</span>
             <span>-{centsToEuros(appointment.discountCents)}</span>
           </div>
         )}

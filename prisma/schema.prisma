@@ -56,6 +56,9 @@ model Client {
   referralDiscountAvailable Boolean  @default(false) // réduction de parrainage à utiliser sur le prochain RDV
   referralBlockedReason     String? // renseigné si le parrainage a été refusé (fraude suspectée)
   reviews                   Review[]
+
+  anniversaryDiscountAvailable Boolean   @default(false) // réduction des 1 an du compte, à utiliser sur le prochain RDV
+  anniversaryDiscountSentAt    DateTime? // empêche de renvoyer/réaccorder la réduction plusieurs fois
 }
 
 enum AppointmentStatus {

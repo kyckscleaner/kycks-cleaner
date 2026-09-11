@@ -205,3 +205,53 @@ export async function sendAdminDailySummaryEmail(adminEmail: string, appointment
     // L'échec d'envoi du récap admin ne doit jamais faire échouer la tâche planifiée.
   }
 }
+
+export async function sendAnniversaryDiscountEmail(clientEmail: string, clientName: string, discountPercent: number) {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://kycks-cleaner.fr";
+  const reserverUrl = `${baseUrl}/reserver`;
+
+  const lines = [
+    `Bonjour ${clientName.split(" ")[0]},`,
+    "",
+    `Ça fait déjà 1 an que vous avez créé votre compte Kycks Cleaner ! 🎉`,
+    "",
+    `Pour vous remercier, vous bénéficiez de ${discountPercent}% de réduction sur votre prochain rendez-vous.`,
+    `La réduction est déjà activée sur votre compte : elle s'appliquera automatiquement à votre prochaine réservation, sans code à saisir.`,
+    "",
+    `Réservez ici : ${reserverUrl}`,
+    "",
+    "À bientôt !",
+    "Kycks Cleaner",
+  ];
+
+  try {
+    await resend.emails.send({
+      from: "Kycks Cleaner <contact@kycks-cleaner.fr>",
+      to: clientEmail,
+      subject: `🎉 1 an ensemble - ${discountPercent}% de réduction pour vous`,
+      text: lines.join("\n"),
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function sendAdminAnniversaryNotification(adminEmail: string, clientName: string, clientEmail: string) {
+  const lines = [
+    `Un client fête ses 1 an sur le site aujourd'hui : ${clientName} (${clientEmail}).`,
+    "",
+    "Une réduction de 10% a été activée automatiquement sur son compte pour sa prochaine réservation.",
+  ];
+
+  try {
+    await resend.emails.send({
+      from: "Kycks Cleaner <contact@kycks-cleaner.fr>",
+      to: adminEmail,
+      subject: `Réduction anniversaire accordée à ${clientName}`,
+      text: lines.join("\n"),
+    });
+  } catch {
+    // L'échec d'envoi ne doit jamais faire échouer la tâche planifiée.
+  }
+}
