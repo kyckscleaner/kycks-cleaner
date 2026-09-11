@@ -121,7 +121,7 @@ export default async function HomePage() {
 
       <section className="relative">
         {/* bannière image */}
-        <div className="relative h-[21vh] min-h-[180px] w-full overflow-hidden bg-black sm:h-[29vh] sm:min-h-[230px]">
+        <div className="relative aspect-[1774/463] w-full overflow-hidden bg-black">
           <Image
             src="/hero-banner.jpg"
             alt="Kycks Cleaner - Nettoyage automobile à domicile"
