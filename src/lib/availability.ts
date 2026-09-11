@@ -4,6 +4,7 @@ export const OPENING_HOUR = 8;
 export const CLOSING_HOUR = 18;
 export const SLOT_INTERVAL_MINUTES = 30;
 export const CLOSED_WEEKDAY = 0; // Dimanche
+export const MIN_BLOCK_MINUTES = 180; // temps minimum bloqué après chaque RDV (trajet + marge), même si la prestation est plus courte
 
 export async function getAvailableSlots(dateStr: string, durationMinutes: number) {
   const [year, month, day] = dateStr.split("-").map(Number);
@@ -22,7 +23,7 @@ export async function getAvailableSlots(dateStr: string, durationMinutes: number
 
   const busyIntervals = appointments.map((appt) => ({
     start: appt.date.getTime(),
-    end: appt.date.getTime() + appt.durationMinutes * 60_000,
+    end: appt.date.getTime() + Math.max(appt.durationMinutes, MIN_BLOCK_MINUTES) * 60_000,
   }));
 
   const now = new Date();

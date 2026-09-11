@@ -32,7 +32,7 @@ async function main() {
       name: "Intérieur",
       description:
         "Aspiration complète, nettoyage de l'habitacle, sièges, tapis & moquettes, vitres intérieures, parfum d'intérieur.",
-      priceCents: 4000,
+      priceCents: 4500,
       durationMinutes: 60,
       order: 1,
     },
@@ -40,7 +40,7 @@ async function main() {
       code: "exterieur",
       name: "Extérieur",
       description: "Carrosserie, jantes, vitres extérieures, séchage du véhicule.",
-      priceCents: 3000,
+      priceCents: 4000,
       durationMinutes: 60,
       order: 2,
     },
@@ -49,7 +49,7 @@ async function main() {
       name: "Complet",
       description:
         "Comprend l'intégralité des prestations des formules Intérieur & Extérieur. La formule la plus demandée.",
-      priceCents: 6500,
+      priceCents: 8000,
       durationMinutes: 105,
       order: 3,
     },
