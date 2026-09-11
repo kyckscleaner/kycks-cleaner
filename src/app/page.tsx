@@ -133,10 +133,17 @@ export default async function HomePage() {
             className="pointer-events-none absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 70%, #000000 100%)",
+                "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 55%, #000000 92%)",
             }}
           />
           <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/70 to-transparent" />
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2"
+            style={{
+              background:
+                "radial-gradient(60% 100% at 50% 100%, rgba(124,58,237,0.35) 0%, rgba(0,0,0,0) 70%)",
+            }}
+          />
         </div>
 
         {/* contenu, sur fond noir uni juste sous la vidéo */}
