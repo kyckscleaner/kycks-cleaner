@@ -68,8 +68,14 @@ export default async function ComptePage() {
           )}
           {client.anniversaryDiscountAvailable && (
             <p className="mt-4 rounded-lg bg-green-500/10 px-3 py-2 text-sm text-green-400">
-              🎉 Bon anniversaire ! Vous avez une réduction de {REFERRAL_DISCOUNT_PERCENT}% disponible
-              pour vos 1 an — elle sera proposée automatiquement à votre prochaine réservation.
+              🎉 1 an sur le site ! Vous avez une réduction de {REFERRAL_DISCOUNT_PERCENT}% disponible
+              — elle sera proposée automatiquement à votre prochaine réservation.
+            </p>
+          )}
+          {client.birthdayDiscountAvailable && (
+            <p className="mt-4 rounded-lg bg-green-500/10 px-3 py-2 text-sm text-green-400">
+              🎂 Joyeux anniversaire ! Vous avez une réduction de {REFERRAL_DISCOUNT_PERCENT}% disponible
+              — elle sera proposée automatiquement à votre prochaine réservation.
             </p>
           )}
         </section>

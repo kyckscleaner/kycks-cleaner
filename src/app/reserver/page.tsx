@@ -34,6 +34,7 @@ export default async function ReserverPage() {
         phone: client.phone,
         referralDiscountAvailable: client.referralDiscountAvailable,
         anniversaryDiscountAvailable: client.anniversaryDiscountAvailable,
+        birthdayDiscountAvailable: client.birthdayDiscountAvailable,
       }
     : null;
 

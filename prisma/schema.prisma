@@ -59,6 +59,10 @@ model Client {
 
   anniversaryDiscountAvailable Boolean   @default(false) // réduction des 1 an du compte, à utiliser sur le prochain RDV
   anniversaryDiscountSentAt    DateTime? // empêche de renvoyer/réaccorder la réduction plusieurs fois
+
+  birthDate                 DateTime? // demandée à l'inscription, sert au mail d'anniversaire
+  birthdayDiscountAvailable Boolean   @default(false) // réduction du jour de naissance, à utiliser sur le prochain RDV
+  birthdayDiscountSentYear  Int? // année où la réduction anniversaire de naissance a été envoyée (permet un envoi par an)
 }
 
 enum AppointmentStatus {

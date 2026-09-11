@@ -24,6 +24,7 @@ type LoggedInClient = {
   phone: string;
   referralDiscountAvailable: boolean;
   anniversaryDiscountAvailable: boolean;
+  birthdayDiscountAvailable: boolean;
 };
 
 const REFERRAL_DISCOUNT_PERCENT = 10;
@@ -68,7 +69,10 @@ export function ReservationForm({
   const [vehicleInfo, setVehicleInfo] = useState("");
   const [notes, setNotes] = useState("");
   const [useReferralDiscount, setUseReferralDiscount] = useState(
-    (loggedInClient?.referralDiscountAvailable || loggedInClient?.anniversaryDiscountAvailable) ?? false
+    (loggedInClient?.referralDiscountAvailable ||
+      loggedInClient?.anniversaryDiscountAvailable ||
+      loggedInClient?.birthdayDiscountAvailable) ??
+      false
   );
 
   const [submitting, setSubmitting] = useState(false);
@@ -86,7 +90,9 @@ export function ReservationForm({
     selectedServices.reduce((sum, s) => sum + s.priceCents, 0) +
     selectedOptions.reduce((sum, o) => sum + o.priceCents, 0);
   const hasAvailableDiscount =
-    loggedInClient?.referralDiscountAvailable || loggedInClient?.anniversaryDiscountAvailable;
+    loggedInClient?.referralDiscountAvailable ||
+    loggedInClient?.anniversaryDiscountAvailable ||
+    loggedInClient?.birthdayDiscountAvailable;
   const discountCents =
     hasAvailableDiscount && useReferralDiscount
       ? Math.round((subtotalCents * REFERRAL_DISCOUNT_PERCENT) / 100)
@@ -301,7 +307,9 @@ export function ReservationForm({
           <span className="text-sm text-green-400">
             {loggedInClient?.referralDiscountAvailable
               ? `Utiliser ma réduction de parrainage (-${REFERRAL_DISCOUNT_PERCENT}%)`
-              : `Utiliser ma réduction anniversaire (-${REFERRAL_DISCOUNT_PERCENT}%)`}
+              : loggedInClient?.anniversaryDiscountAvailable
+                ? `Utiliser ma réduction anniversaire de compte (-${REFERRAL_DISCOUNT_PERCENT}%)`
+                : `Utiliser ma réduction anniversaire (-${REFERRAL_DISCOUNT_PERCENT}%)`}
           </span>
         </label>
       )}

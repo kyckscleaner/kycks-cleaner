@@ -15,6 +15,7 @@ export function ClientSignupForm() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   const [referralCode, setReferralCode] = useState(prefilledRef);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -27,7 +28,14 @@ export function ClientSignupForm() {
     const res = await fetch("/api/client/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, phone, password, referralCode: referralCode || undefined }),
+      body: JSON.stringify({
+        name,
+        email,
+        phone,
+        password,
+        birthDate,
+        referralCode: referralCode || undefined,
+      }),
     });
     const data = await res.json();
 
@@ -47,6 +55,16 @@ export function ClientSignupForm() {
       <input required type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputClass} />
       <input required placeholder="Téléphone" value={phone} onChange={(e) => setPhone(e.target.value)} className={inputClass} />
       <input required type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} className={inputClass} />
+      <label className="block">
+        <span className="mb-1 block text-xs text-white/50">Date de naissance</span>
+        <input
+          required
+          type="date"
+          value={birthDate}
+          onChange={(e) => setBirthDate(e.target.value)}
+          className={`${inputClass} [color-scheme:dark]`}
+        />
+      </label>
       <input
         placeholder="Code de parrainage (optionnel)"
         value={referralCode}

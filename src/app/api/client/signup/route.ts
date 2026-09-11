@@ -17,6 +17,7 @@ export async function POST(req: Request) {
   const data = parsed.data;
   const passwordHash = await bcrypt.hash(data.password, 10);
   const signupIp = getClientIp(req);
+  const birthDate = new Date(`${data.birthDate}T00:00:00`);
 
   const existing = await prisma.client.findUnique({ where: { email: data.email } });
   if (existing?.passwordHash) {
@@ -52,6 +53,7 @@ export async function POST(req: Request) {
           name: data.name,
           phone: data.phone,
           passwordHash,
+          birthDate,
           signupIp: existing.signupIp ?? signupIp,
           referralCode: existing.referralCode ?? ownReferralCode,
           referredById: referrer && referrer.id !== existing.id ? referrer.id : undefined,
@@ -65,6 +67,7 @@ export async function POST(req: Request) {
           email: data.email,
           phone: data.phone,
           passwordHash,
+          birthDate,
           signupIp,
           referralCode: ownReferralCode,
           referredById: referrer?.id,

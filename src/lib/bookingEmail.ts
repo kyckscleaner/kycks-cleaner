@@ -259,3 +259,54 @@ export async function sendAdminAnniversaryNotification(adminEmail: string, clien
     // L'échec d'envoi ne doit jamais faire échouer la tâche planifiée.
   }
 }
+
+export async function sendBirthdayDiscountEmail(clientEmail: string, clientName: string, discountPercent: number) {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://kycks-cleaner.fr";
+  const reserverUrl = `${baseUrl}/reserver`;
+  const firstName = clientName.split(" ")[0];
+
+  const lines = [
+    `🎂 Joyeux anniversaire ${firstName} ! 🎉`,
+    "",
+    `Toute l'équipe Kycks Cleaner vous souhaite une excellente journée.`,
+    "",
+    `Pour fêter ça, vous bénéficiez de ${discountPercent}% de réduction sur votre prochain rendez-vous.`,
+    `Aucun code à retenir : la réduction est déjà activée sur votre compte et s'appliquera automatiquement.`,
+    "",
+    `🎁 Réservez votre prochain nettoyage ici : ${reserverUrl}`,
+    "",
+    "Prenez soin de vous, et à bientôt !",
+    "L'équipe Kycks Cleaner",
+  ];
+
+  try {
+    await resend.emails.send({
+      from: "Kycks Cleaner <contact@kycks-cleaner.fr>",
+      to: clientEmail,
+      subject: `🎂 Joyeux anniversaire ${firstName} - ${discountPercent}% pour vous`,
+      text: lines.join("\n"),
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function sendAdminBirthdayNotification(adminEmail: string, clientName: string, clientEmail: string) {
+  const lines = [
+    `C'est l'anniversaire de ${clientName} (${clientEmail}) aujourd'hui ! 🎂`,
+    "",
+    "Une réduction de 10% a été activée automatiquement sur son compte pour sa prochaine réservation.",
+  ];
+
+  try {
+    await resend.emails.send({
+      from: "Kycks Cleaner <contact@kycks-cleaner.fr>",
+      to: adminEmail,
+      subject: `Réduction anniversaire de naissance accordée à ${clientName}`,
+      text: lines.join("\n"),
+    });
+  } catch {
+    // L'échec d'envoi ne doit jamais faire échouer la tâche planifiée.
+  }
+}
