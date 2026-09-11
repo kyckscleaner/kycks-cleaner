@@ -42,7 +42,13 @@ export default function ContactPage() {
               @kycks_cleaner
             </a>
           </p>
-          <p>📍 Zone d&apos;intervention : Granville et environs (10 km autour)</p>
+          <div>
+            <p>📍 Zone d&apos;intervention (environ 10 km autour de Granville) :</p>
+            <p className="mt-1 text-sm text-white/50">
+              Granville, Donville-les-Bains, Saint-Pair-sur-Mer, Yquelon, Saint-Planchers, Longueville,
+              Bréville-sur-Mer, Coudeville-sur-Mer, Jullouville, Champeaux, Carolles.
+            </p>
+          </div>
           <p>📅 Uniquement sur rendez-vous</p>
         </div>
 

@@ -57,6 +57,27 @@ const FORMULE_FEATURES: Record<string, { included: string[]; excluded: string[] 
   },
 };
 
+const NEARBY_TOWNS = [
+  "Granville",
+  "Donville-les-Bains",
+  "Saint-Pair-sur-Mer",
+  "Yquelon",
+  "Saint-Planchers",
+  "Longueville",
+  "Bréville-sur-Mer",
+  "Coudeville-sur-Mer",
+  "Jullouville",
+  "Champeaux",
+  "Carolles",
+];
+
+const WHY_CHOOSE_US = [
+  { icon: "⏱️", title: "Ponctualité", desc: "On arrive à l'heure convenue, sans vous faire attendre." },
+  { icon: "🧴", title: "Produits professionnels", desc: "Du matériel et des produits pro, pas de bricolage." },
+  { icon: "🔁", title: "Satisfait ou repassé", desc: "Pas satisfait ? On repasse corriger, sans frais." },
+  { icon: "🏠", title: "100% à domicile", desc: "Chez vous, à l'heure et au jour qui vous arrangent." },
+];
+
 const FAQ = [
   {
     q: "De quoi avez-vous besoin sur place ?",
@@ -330,6 +351,52 @@ export default async function HomePage() {
               <p className="mt-2 text-sm text-white/60">{item.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Pourquoi nous choisir */}
+      <section className="border-t border-white/10 bg-[#0f0d13] px-4 py-16 sm:px-6">
+        <h2 className="text-center font-[family-name:var(--font-display)] text-3xl uppercase tracking-wide text-white sm:text-4xl">
+          Pourquoi nous choisir
+        </h2>
+        <div className="mx-auto mt-10 grid max-w-6xl gap-4 sm:grid-cols-4">
+          {WHY_CHOOSE_US.map((item) => (
+            <div
+              key={item.title}
+              className="rounded-2xl border border-white/10 bg-[#16141c] p-6 text-center"
+            >
+              <span className="text-3xl">{item.icon}</span>
+              <h3 className="mt-3 font-[family-name:var(--font-display)] text-sm uppercase tracking-wide text-white">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-sm text-white/60">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Zone d'intervention */}
+      <section className="border-t border-white/10 bg-black px-4 py-16 sm:px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="font-[family-name:var(--font-display)] text-3xl uppercase tracking-wide text-white sm:text-4xl">
+            Zone d&apos;intervention
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-white/60">
+            À domicile, à Granville et dans un rayon d&apos;environ 10 km autour :
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-2">
+            {NEARBY_TOWNS.map((town) => (
+              <span
+                key={town}
+                className="rounded-full border border-white/10 bg-[#16141c] px-4 py-1.5 text-sm text-white/80"
+              >
+                {town}
+              </span>
+            ))}
+          </div>
+          <p className="mt-4 text-sm text-white/40">
+            Vous êtes juste en dehors de cette zone ? Contactez-nous, on trouve souvent une solution.
+          </p>
         </div>
       </section>
 
