@@ -19,6 +19,28 @@ const GALLERY = [
   { type: "image" as const, src: "/gallery/armrest.jpg", alt: "Accoudoir nettoyé, résultat avant/après" },
 ];
 
+const FORMULE_FEATURES: Record<string, { included: string[]; excluded: string[] }> = {
+  interieur: {
+    included: ["Aspiration complète", "Sièges nettoyés", "Plastiques & tableau de bord", "Tapis & moquettes"],
+    excluded: ["Extérieur (carrosserie, jantes, vitres)"],
+  },
+  exterieur: {
+    included: ["Carrosserie", "Jantes", "Vitres extérieures", "Séchage"],
+    excluded: ["Intérieur (sièges, plastiques, tapis)"],
+  },
+  complet: {
+    included: [
+      "Aspiration complète",
+      "Sièges nettoyés",
+      "Plastiques & tableau de bord",
+      "Tapis & moquettes",
+      "Carrosserie, jantes, vitres extérieures",
+      "Séchage",
+    ],
+    excluded: [],
+  },
+};
+
 const FAQ = [
   {
     q: "De quoi avez-vous besoin sur place ?",
@@ -155,6 +177,7 @@ export default async function HomePage() {
           <div className="mt-10 grid gap-6 sm:grid-cols-3">
             {services.map((service) => {
               const isFeatured = service.code === "complet";
+              const features = FORMULE_FEATURES[service.code];
               return (
                 <div
                   key={service.id}
@@ -172,24 +195,44 @@ export default async function HomePage() {
                   <h3 className="font-[family-name:var(--font-display)] text-lg uppercase tracking-wide text-white">
                     {service.name}
                   </h3>
-                  <p className="mt-2 flex-1 text-sm text-white/60">{service.description}</p>
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="text-2xl font-extrabold text-[#a855f7]">
+                  <div className="mt-3 flex items-baseline gap-2">
+                    <span className="text-3xl font-extrabold text-[#a855f7]">
                       {centsToEuros(service.priceCents)}
                     </span>
                     <span className="text-xs text-white/30">~{service.durationMinutes} min</span>
                   </div>
+
+                  {features && (
+                    <ul className="mt-5 flex-1 space-y-2 text-sm">
+                      {features.included.map((item) => (
+                        <li key={item} className="flex items-start gap-2 text-white/80">
+                          <span className="mt-0.5 text-green-400">✓</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                      {features.excluded.map((item) => (
+                        <li key={item} className="flex items-start gap-2 text-white/30">
+                          <span className="mt-0.5">✗</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <Link
+                    href={`/reserver?service=${service.code}`}
+                    className={`mt-6 flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition ${
+                      isFeatured
+                        ? "bg-gradient-to-r from-[#7c3aed] to-[#a855f7] text-white shadow-[0_0_20px_-4px_#a855f7] hover:brightness-110"
+                        : "border border-white/15 text-white hover:bg-white/5"
+                    }`}
+                  >
+                    Réserver
+                    <span aria-hidden>→</span>
+                  </Link>
                 </div>
               );
             })}
-          </div>
-          <div className="mt-10 text-center">
-            <Link
-              href="/reserver"
-              className="rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-7 py-3 font-semibold text-white shadow-[0_0_30px_-6px_#a855f7] transition hover:brightness-110"
-            >
-              Réserver maintenant
-            </Link>
           </div>
         </div>
       </section>
