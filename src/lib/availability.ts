@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
-export const OPENING_HOUR = 8;
+export const OPENING_HOUR = 9;
 export const CLOSING_HOUR = 18;
 export const SLOT_INTERVAL_MINUTES = 30;
 export const MIN_BLOCK_MINUTES = 180; // temps minimum bloqué après chaque RDV (trajet + marge), même si la prestation est plus courte
