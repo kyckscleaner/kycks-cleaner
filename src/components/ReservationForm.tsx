@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { DatePickerCalendar } from "@/components/DatePickerCalendar";
 
 type Service = {
   id: string;
@@ -242,13 +243,7 @@ export function ReservationForm({
           3. Choisissez un créneau
         </h2>
         <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-start">
-          <input
-            type="date"
-            value={date}
-            min={todayISO()}
-            onChange={(e) => setDate(e.target.value)}
-            className={inputClass}
-          />
+          <DatePickerCalendar value={date} onChange={setDate} />
           <div className="flex flex-1 flex-wrap gap-2">
             {totalDuration === 0 && (
               <p className="text-sm text-white/40">Choisissez d&apos;abord une formule.</p>
