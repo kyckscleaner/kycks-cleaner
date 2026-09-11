@@ -134,7 +134,7 @@ export default async function HomePage() {
           </div>
           {/* fondu qui deborde volontairement sous la banniere pour ne jamais laisser de bord visible au raccord */}
           <div
-            className="pointer-events-none absolute inset-x-0 top-1/2 h-[70%]"
+            className="pointer-events-none absolute inset-x-0 top-1/2 z-10 h-[70%]"
             style={{
               background:
                 "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 35%, rgba(0,0,0,0.85) 55%, #000000 70%, #000000 100%)",
