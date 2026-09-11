@@ -140,7 +140,9 @@ type AdminNewBookingInput = {
   address: string;
   city: string;
   postalCode: string;
-  serviceNames: string[];
+  services: { name: string; priceCents: number }[];
+  options: { name: string; priceCents: number }[];
+  discountCents: number;
   totalCents: number;
 };
 
@@ -153,8 +155,10 @@ export async function sendAdminNewBookingEmail(input: AdminNewBookingInput) {
     "",
     `👤 ${input.clientName} — ${input.clientPhone} — ${input.clientEmail}`,
     `📅 ${dateLabel} à ${timeLabel}`,
-    `🧽 ${input.serviceNames.join(", ")}`,
+    ...input.services.map((s) => `🧽 ${s.name} ${centsToEuros(s.priceCents)}`),
+    ...input.options.map((o) => `➕ ${o.name} ${centsToEuros(o.priceCents)}`),
     `📍 ${input.address}, ${input.postalCode} ${input.city}`,
+    ...(input.discountCents > 0 ? [`🎁 Réduction : -${centsToEuros(input.discountCents)}`] : []),
     `💰 ${centsToEuros(input.totalCents)} à régler sur place`,
     "",
     "Voir le détail dans l'espace pro.",

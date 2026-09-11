@@ -129,7 +129,9 @@ export async function POST(req: Request) {
       address: data.address,
       city: data.city,
       postalCode: data.postalCode,
-      serviceNames: services.map((s) => s.name),
+      services: services.map((s) => ({ name: s.name, priceCents: s.priceCents })),
+      options: options.map((o) => ({ name: o.name, priceCents: o.priceCents })),
+      discountCents,
       totalCents,
     });
   }
