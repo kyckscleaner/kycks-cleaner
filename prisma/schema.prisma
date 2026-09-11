@@ -165,4 +165,13 @@ model BusinessSettings {
   cfpRatePercent            Float    @default(0.3) // contribution formation professionnelle
   declarationFrequency      String   @default("mensuel") // "mensuel" | "trimestriel"
   updatedAt                 DateTime @updatedAt
+
+  // Jours de la semaine où les réservations sont ouvertes (ex : indisponible certains jours à cause d'un autre emploi)
+  openMonday    Boolean @default(true)
+  openTuesday   Boolean @default(true)
+  openWednesday Boolean @default(true)
+  openThursday  Boolean @default(true)
+  openFriday    Boolean @default(true)
+  openSaturday  Boolean @default(true)
+  openSunday    Boolean @default(false)
 }

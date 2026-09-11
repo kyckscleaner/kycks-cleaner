@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { SettingsForm } from "@/components/admin/SettingsForm";
 import { ServicesPricingForm } from "@/components/admin/ServicesPricingForm";
 import { OptionsPricingForm } from "@/components/admin/OptionsPricingForm";
+import { OpeningDaysForm } from "@/components/admin/OpeningDaysForm";
 
 export default async function AdminParametresPage() {
   const [settings, services, options] = await Promise.all([
@@ -24,6 +25,23 @@ export default async function AdminParametresPage() {
           Configurez votre micro-entreprise et vos tarifs.
         </p>
       </div>
+
+      <section>
+        <h2 className="mb-3 font-[family-name:var(--font-display)] uppercase tracking-wide text-white">
+          Jours d&apos;ouverture
+        </h2>
+        <OpeningDaysForm
+          settings={{
+            openMonday: settings.openMonday,
+            openTuesday: settings.openTuesday,
+            openWednesday: settings.openWednesday,
+            openThursday: settings.openThursday,
+            openFriday: settings.openFriday,
+            openSaturday: settings.openSaturday,
+            openSunday: settings.openSunday,
+          }}
+        />
+      </section>
 
       <section>
         <h2 className="mb-3 font-[family-name:var(--font-display)] uppercase tracking-wide text-white">

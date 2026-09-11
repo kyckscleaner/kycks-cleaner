@@ -8,18 +8,34 @@ export async function PATCH(req: Request) {
 
   const body = await req.json();
 
+  const data: Record<string, unknown> = {};
+
+  if (body.businessName !== undefined) data.businessName = body.businessName;
+  if (body.siret !== undefined) data.siret = body.siret;
+  if (body.activityType !== undefined) data.activityType = body.activityType;
+  if (body.cotisationRatePercent !== undefined) data.cotisationRatePercent = Number(body.cotisationRatePercent);
+  if (body.versementLiberatoireActif !== undefined)
+    data.versementLiberatoireActif = Boolean(body.versementLiberatoireActif);
+  if (body.versementLiberatoireRate !== undefined)
+    data.versementLiberatoireRate = Number(body.versementLiberatoireRate);
+  if (body.cfpRatePercent !== undefined) data.cfpRatePercent = Number(body.cfpRatePercent);
+  if (body.declarationFrequency !== undefined) data.declarationFrequency = body.declarationFrequency;
+
+  for (const day of [
+    "openMonday",
+    "openTuesday",
+    "openWednesday",
+    "openThursday",
+    "openFriday",
+    "openSaturday",
+    "openSunday",
+  ]) {
+    if (body[day] !== undefined) data[day] = Boolean(body[day]);
+  }
+
   const settings = await prisma.businessSettings.update({
     where: { id: "singleton" },
-    data: {
-      businessName: body.businessName,
-      siret: body.siret,
-      activityType: body.activityType,
-      cotisationRatePercent: Number(body.cotisationRatePercent),
-      versementLiberatoireActif: Boolean(body.versementLiberatoireActif),
-      versementLiberatoireRate: Number(body.versementLiberatoireRate),
-      cfpRatePercent: Number(body.cfpRatePercent),
-      declarationFrequency: body.declarationFrequency,
-    },
+    data,
   });
 
   return NextResponse.json(settings);

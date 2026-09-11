@@ -3,15 +3,32 @@ import { prisma } from "@/lib/prisma";
 export const OPENING_HOUR = 8;
 export const CLOSING_HOUR = 18;
 export const SLOT_INTERVAL_MINUTES = 30;
-export const CLOSED_WEEKDAY = 0; // Dimanche
 export const MIN_BLOCK_MINUTES = 180; // temps minimum bloqué après chaque RDV (trajet + marge), même si la prestation est plus courte
+
+// index JS getDay() : 0=dimanche, 1=lundi, ... 6=samedi
+const OPEN_DAY_FIELDS = [
+  "openSunday",
+  "openMonday",
+  "openTuesday",
+  "openWednesday",
+  "openThursday",
+  "openFriday",
+  "openSaturday",
+] as const;
 
 export async function getAvailableSlots(dateStr: string, durationMinutes: number) {
   const [year, month, day] = dateStr.split("-").map(Number);
   const dayStart = new Date(year, month - 1, day, 0, 0, 0, 0);
   const dayEnd = new Date(year, month - 1, day, 23, 59, 59, 999);
 
-  if (dayStart.getDay() === CLOSED_WEEKDAY) return [];
+  const settings = await prisma.businessSettings.upsert({
+    where: { id: "singleton" },
+    update: {},
+    create: { id: "singleton" },
+  });
+
+  const isOpenToday = settings[OPEN_DAY_FIELDS[dayStart.getDay()]];
+  if (!isOpenToday) return [];
 
   const appointments = await prisma.appointment.findMany({
     where: {
