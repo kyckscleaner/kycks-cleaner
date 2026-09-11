@@ -119,26 +119,27 @@ export default async function HomePage() {
     <div className="flex min-h-screen flex-col bg-black">
       <SiteHeader />
 
-      <section className="relative">
+      <section className="relative bg-black">
         {/* bannière image */}
-        <div className="relative aspect-[1774/336] w-full overflow-hidden bg-black">
-          <Image
-            src="/hero-banner.jpg"
-            alt="Kycks Cleaner - Nettoyage automobile à domicile"
-            fill
-            priority
-            className="object-cover"
-          />
+        <div className="relative aspect-[1774/336] w-full">
+          <div className="absolute inset-0 overflow-hidden">
+            <Image
+              src="/hero-banner.jpg"
+              alt="Kycks Cleaner - Nettoyage automobile à domicile"
+              fill
+              priority
+              className="object-cover"
+            />
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/70 to-transparent" />
+          </div>
+          {/* fondu qui deborde volontairement sous la banniere pour ne jamais laisser de bord visible au raccord */}
           <div
-            className="pointer-events-none absolute inset-0"
+            className="pointer-events-none absolute inset-x-0 top-1/2 h-[70%]"
             style={{
-              background: [
-                "radial-gradient(70% 90% at 50% 130%, rgba(124,58,237,0.35) 0%, rgba(0,0,0,0) 60%)",
-                "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0.06) 45%, rgba(0,0,0,0.18) 60%, rgba(0,0,0,0.38) 72%, rgba(0,0,0,0.62) 82%, rgba(0,0,0,0.85) 90%, #000000 100%)",
-              ].join(", "),
+              background:
+                "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 35%, rgba(0,0,0,0.85) 55%, #000000 70%, #000000 100%)",
             }}
           />
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/70 to-transparent" />
         </div>
 
         {/* contenu, sur fond noir uni juste sous la vidéo */}
