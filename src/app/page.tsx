@@ -120,15 +120,14 @@ export default async function HomePage() {
       <SiteHeader />
 
       <section className="relative">
-        {/* bannière vidéo — un vrai nettoyage Kycks Cleaner en action */}
+        {/* bannière image */}
         <div className="relative h-[21vh] min-h-[180px] w-full overflow-hidden bg-black sm:h-[29vh] sm:min-h-[230px]">
-          <video
-            src="/hero-detailing.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 h-full w-full object-cover"
+          <Image
+            src="/hero-banner.jpg"
+            alt="Kycks Cleaner - Nettoyage automobile à domicile"
+            fill
+            priority
+            className="object-cover"
           />
           <div
             className="pointer-events-none absolute inset-0"
